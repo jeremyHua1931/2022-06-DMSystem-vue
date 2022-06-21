@@ -19,11 +19,11 @@ const routes = [
 		  },
 		},
 		{
-		  path: "/TeamManagement",
-		  name: "TeamManagement",
-		  component: () => import("views/TeamManagement.vue"),
+		  path: "/TeamList",
+		  name: "TeamList",
+		  component: () => import("views/TeamList.vue"),
 		  meta: {
-		    title: "团队成员管理",
+		    title: "团队列表",
 		  },
 		},
 		{
@@ -130,6 +130,14 @@ const routes = [
           title: "管理员列表",
         },
       },
+	  {
+	    path: "/TeamManagement",
+	    name: "TeamManagement",
+	    component: () => import("views/TeamManagement.vue"),
+	    meta: {
+	      title: "团队管理界面",
+	    },
+	  },
     ],
   },
   {
@@ -141,6 +149,7 @@ const routes = [
     path: "/:catchAll(.*)",
     redirect: "/404",
   },
+  
 ];
 
 const router = createRouter({

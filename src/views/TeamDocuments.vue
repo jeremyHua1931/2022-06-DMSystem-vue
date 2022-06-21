@@ -32,37 +32,18 @@
         <template #default="scope">
           <el-avatar :src="scope.row.image"></el-avatar></template
       ></el-table-column> -->
-      <el-table-column prop="team_id" label="ID" width="" />
-      <el-table-column prop="name" label="产品名称" width="" />
-      <el-table-column prop="price" label="单价" width="" />
-      <el-table-column prop="totalNumber" label="总份数" width="" />
-      <el-table-column prop="totalPrice" label="总金额" width="" />
-      <el-table-column prop="remainNumber" label="剩余份数" width="" />
-      <el-table-column prop="restrictNumber" label="限购份数" width="" />
-      <el-table-column prop="startTime" label="开始时间" width="" />
-      <el-table-column prop="endTime" label="结束时间" width="" />
-      <el-table-column prop="status" label="状态" width="">
-        <template #default="scope">
-          <el-tag v-if="scope.row.status == 0" type="info">未开始</el-tag>
-          <el-tag v-else-if="scope.row.status == 1">进行中</el-tag>
-          <el-tag v-else type="success">已结束</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" fixed="right" width="180"
-        ><template #default="scope">
-          <el-link
-			:href="'https://baidu.com'"
-            type="primary"
-            :underline="false"
-            >查看</el-link
-          ><el-divider direction="vertical"></el-divider>
-          <el-button size="small" @click="modify(scope.row)">编辑</el-button>
+      <el-table-column prop="library_id" label="文献库编号" width="" />
+      <el-table-column prop="library_name" label="文献库名称" width="" />
+      <el-table-column prop="library_from_team_id" label="文献库所属团队编号" width="" />
+      <el-table-column prop="library_from_team_name" label="文献库所属团队名称" width="" />
+      <el-table-column label="操作" fixed="right" width="180"><template #default="scope">
+          <el-button size="small" @click="modify(scope.row)">进入文献库</el-button>
           <el-popconfirm
             confirm-button-text="确认"
             cancel-button-text="取消"
             icon="el-icon-info"
             icon-color="red"
-            title="确认删除该条信息？"
+            title="确认删除该文献库？"
             @confirm="handleDelete(scope.$index, scope.row)"
           >
             <template #reference>
@@ -112,6 +93,15 @@ const getList = () => {
     });
 };
 
+var team_info = [{
+	library_id:1,
+	library_name:"羡慕死了组的文献库",
+	library_from_team_id:"1",
+	library_from_team_name:"羡慕死了组",
+}]
+
+depositList.value = team_info;
+
 const add = () => {
   router.push("/depositRelease");
 };
@@ -122,7 +112,7 @@ const modify = (row) => {
   //   path: "/depositRelease",
   //   query: { isModify: true, id: row.id },
   // });
-  alert("执行了编辑函数");
+  alert("进入该文献库页面");
 };
 
 const handleDelete = (index, invalid, list) => {

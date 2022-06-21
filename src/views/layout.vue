@@ -37,8 +37,8 @@
 		    <el-icon><user /></el-icon>
 		    <span>团队管理</span>
 		  </template>
-		  <el-menu-item index="customerList" route="/TeamManagement"
-		    >团队成员管理</el-menu-item
+		  <el-menu-item index="customerList" route="/TeamList"
+		    >团队列表</el-menu-item
 		  >
 		  <el-menu-item index="adminList" route="/TeamDocuments">团队文献库</el-menu-item>
 		</el-sub-menu>
