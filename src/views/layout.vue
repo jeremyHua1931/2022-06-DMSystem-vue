@@ -28,19 +28,19 @@
           :collapse="isCollapse"
           class="el-menu-vertical-demo"
         > -->
-		<el-menu-item index="customerList" route="/UserDocuments">
+		<el-menu-item index="userdocuments" route="/UserDocuments">
 		  <el-icon><odometer /></el-icon>
 		  <template #title>用户文献库</template>
 		</el-menu-item>
-		<el-sub-menu index="1">
+		<el-sub-menu index="team_management">
 		  <template #title>
 		    <el-icon><user /></el-icon>
 		    <span>团队管理</span>
 		  </template>
-		  <el-menu-item index="customerList" route="/TeamList"
+		  <el-menu-item index="teamlist" route="/TeamList"
 		    >团队列表</el-menu-item
 		  >
-		  <el-menu-item index="adminList" route="/TeamDocuments">团队文献库</el-menu-item>
+		  <el-menu-item index="teamdocuments" route="/TeamDocuments">团队文献库</el-menu-item>
 		</el-sub-menu>
 		
 		

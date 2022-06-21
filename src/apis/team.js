@@ -26,3 +26,16 @@ export const getTeams = (data) => {
     data,
   });
 };
+
+/**
+ * @description: 获取team所有成员
+ * @param {*} data
+ * @return {*}
+ */
+export const getAllTeamers = (data) => {
+  return service({
+    url: "http://10.131.167.11:8082/team/getAllTeamers",
+    method: "post",
+    data,
+  });
+};

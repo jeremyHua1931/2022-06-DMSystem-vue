@@ -38,7 +38,8 @@
       <el-table-column prop="library_from_team_name" label="文献库所属团队名称" width="" />
       <el-table-column label="操作" fixed="right" width="180"><template #default="scope">
           <el-button size="small" @click="modify(scope.row)">进入文献库</el-button>
-          <el-popconfirm
+          <el-divider direction="vertical"></el-divider>
+		  <el-popconfirm
             confirm-button-text="确认"
             cancel-button-text="取消"
             icon="el-icon-info"

@@ -3,17 +3,18 @@
     <el-table :data="TeamList" border style="width: 100%">
       <el-table-column prop="team_id" label="团队编号" width="" />
       <el-table-column prop="team_name" label="团队名称" width="" />
-      <el-table-column prop="team_learder_id" label="团队组长" width="" />
+      <el-table-column prop="team_leader_id" label="团队组长" width="" />
       <el-table-column prop="team_administrators" label="团队管理员" width="" />
       <el-table-column prop="team_member_num" label="团队组员数" width="" />
       <el-table-column label="操作" fixed="right" width="180"
         ><template #default="scope">
 			<el-link
-			  :href="'/admin/TeamManagement'"
+			  
+			  :href="'/admin/TeamManagement?teamid=' + scope.row.team_id +'&&userid='+ userid"
 			  type="primary"
 			  :underline="false"
 			  >进入该团队</el-link
-			><el-divider direction="vertical"></el-divider>
+			><el-divider v-if="scope.row.owner=='yes'" direction="vertical"></el-divider>
           <!-- <el-button size="small" @click="modify(scope.row)">进入团队</el-button> -->
           <el-popconfirm
             confirm-button-text="确认"
@@ -24,11 +25,16 @@
             @confirm="handleDelete(scope.$index, scope.row)"
           >
             <template #reference>
-              <el-button size="small" type="danger">删除</el-button>
+              <el-button v-if="scope.row.owner=='yes'" size="small" type="danger">删除</el-button>
             </template>
           </el-popconfirm>
         </template>
+	
       </el-table-column>
+
+	 
+	  
+	  
     </el-table>
     <el-pagination
       v-model:currentPage="query.page"
@@ -50,9 +56,17 @@ import { getToken } from "utils/auth";
 // import { getDepositList, deleteDeposit } from "apis/good.js";
 import {getTeams} from "../apis/team.js";
 
+
+
+
+
+
+
+const userid = '1';
+
 const count = ref(0);
 const query = reactive({
-  userid : "2",
+  userid : userid,
 });
 const TeamList = ref([]);
 const getList = () => {
@@ -60,13 +74,14 @@ const getList = () => {
     .then((res) => {
       if (res.code == 0) {
 		console.log(res.data);
+		console.log(res.msg);
         TeamList.value = res.data;
-        count.value = res.data.count;
       }
     })
     .catch((err) => {
-      // console.log(err);
-    });
+      console.log(err);
+    }
+	);
 };
 
 
@@ -99,6 +114,7 @@ const handleDelete = (index, invalid, list) => {
 };
 
 onBeforeMount(() => {
+	
   getList();
 });
 </script>

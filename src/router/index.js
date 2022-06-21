@@ -7,7 +7,7 @@ const routes = [
     path: "/",
     name: "index",
     component: () => import("views/layout.vue"),
-    redirect: "/dashboard",
+    redirect: "/UserDocuments",
     children: [
 		
 		{
@@ -34,102 +34,6 @@ const routes = [
 		    title: "团队文献库",
 		  },
 		},
-      {
-        path: "/dashboard",
-        name: "dashboard",
-        component: () => import("views/dashboard/index.vue"),
-        meta: {
-          title: "仪表盘",
-        },
-      },
-      {
-        path: "/orderManage",
-        name: "orderManage",
-        component: () => import("views/orderManage.vue"),
-        meta: {
-          title: "订单管理",
-        },
-      },
-      {
-        path: "/depositList",
-        name: "depositList",
-        component: () => import("views/depositList.vue"),
-        meta: {
-          title: "存款列表",
-        },
-      },
-      {
-        path: "/depositDetail",
-        name: "depositDetail",
-        component: () => import("views/depositDetail/index.vue"),
-        meta: {
-          title: "存款详情",
-        },
-      },
-      {
-        path: "/depositRelease",
-        name: "depositRelease",
-        component: () => import("views/depositRelease/index.vue"),
-        meta: {
-          title: "存款发布",
-        },
-      },
-      {
-        path: "/loanList",
-        name: "loanList",
-        component: () => import("views/loanList.vue"),
-        meta: {
-          title: "贷款列表",
-        },
-      },
-      {
-        path: "/loanRelease",
-        name: "loanRelease",
-        component: () => import("views/loanRelease/index.vue"),
-        meta: {
-          title: "贷款发布",
-        },
-      },
-      {
-        path: "/loanDetail",
-        name: "loanDetail",
-        component: () => import("views/loanDetail/index.vue"),
-        meta: {
-          title: "贷款详情",
-        },
-      },
-      {
-        path: "/ruleList",
-        name: "ruleList",
-        component: () => import("views/ruleList.vue"),
-        meta: {
-          title: "规则列表",
-        },
-      },
-      {
-        path: "/ruleGroup",
-        name: "ruleGroup",
-        component: () => import("views/ruleGroup.vue"),
-        meta: {
-          title: "规则组合",
-        },
-      },
-      {
-        path: "/customerList",
-        name: "customerList",
-        component: () => import("views/customerList.vue"),
-        meta: {
-          title: "客户列表",
-        },
-      },
-      {
-        path: "/adminList",
-        name: "adminList",
-        component: () => import("views/adminList.vue"),
-        meta: {
-          title: "管理员列表",
-        },
-      },
 	  {
 	    path: "/TeamManagement",
 	    name: "TeamManagement",
