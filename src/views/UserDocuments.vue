@@ -67,16 +67,24 @@
 </template>
 
 <script setup>
-import { ref, reactive, onBeforeMount, computed } from "vue";
+import { ref, reactive, onBeforeMount, computed, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { Search } from "@element-plus/icons-vue";
 import { getToken } from "utils/auth";
 import { getDepositList, deleteDeposit } from "apis/good.js";
 
 
-var localurl = window.location.href;
-var userid = localurl.split("?userid=")[1];
-console.log("解析的userid为",userid);
+// var localurl = window.location.href;
+// var userid = localurl.split("?userid=")[1];
+// console.log("解析的userid为",userid);
+// this.common.setUserId(userid);
+const Instance = getCurrentInstance();
+const { appContext : { config: { globalProperties } } } = getCurrentInstance();
+console.log("Instance为：", Instance);
+
+console.log("全局变量中的Userid为：", globalProperties.$userid);
+globalProperties.$userid = '100';
+console.log("修改后全局变量中的Userid为：", globalProperties.$userid);
 
 const count = ref(0);
 const query = reactive({

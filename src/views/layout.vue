@@ -47,7 +47,7 @@
 
           </el-sub-menu>
 
-          <el-menu-item index="userdocuments" route="/fileShow">
+          <el-menu-item index="fileShow" route="/fileShow">
             <el-icon>
               <Tickets/>
             </el-icon>
