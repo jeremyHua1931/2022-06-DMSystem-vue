@@ -52,6 +52,14 @@ const routes = [
 	      title: "团队管理界面",
 	    },
 	  },
+		{
+			path: "/personalInfo",
+			name: "personalInfo",
+			component: () => import("views/personalInfo.vue"),
+			meta: {
+				title: "个人信息管理",
+			},
+		},
 
     ],
   },
