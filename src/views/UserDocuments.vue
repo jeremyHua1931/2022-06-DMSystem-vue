@@ -23,7 +23,9 @@
       </el-select>
     </div>
     <div class="toolbar-right">
-      <el-button @click="add" type="primary" plain>新增</el-button>
+     <el-badge :value="noticeList.length" class="item">
+         <el-button :icon="Message" type="primary" @click="drawer = true">未读消息</el-button>
+       </el-badge>
     </div>
   </div>
   <div class="table">
@@ -54,6 +56,7 @@
         </template>
       </el-table-column>
     </el-table>
+	
     <el-pagination
       v-model:currentPage="query.page"
       :page-size="query.size"
@@ -64,14 +67,76 @@
     >
     </el-pagination>
   </div>
+  
+  <el-drawer
+      v-model="drawer"
+      title="未读消息"
+      :direction="rtl"
+      :before-close="handleClose"
+    >
+      <!-- <span>Hi, there!</span> -->
+	  <div id="table">
+		  <el-table :data="noticeList" border style="width: 100%" >  
+		  
+		  <el-table-column type="expand">
+		        <template #default="props">
+		          <div m="4">
+		            <p m="t-0 b-2" style="width: 100%;height: 45px;display: block;line-height: 45px;text-align: center;">{{ props.row.content}}</p>
+		          </div>
+		        </template>
+		      </el-table-column>
+		  
+		   <el-table-column align="center" label="消息" width="" >邀请通知</el-table-column>
+		   <el-table-column align="center" label="操作1" fixed="right" width="75"><template #default="scope">
+		       <el-button size="small" @click="Confirm_Notice_yes(scope.row)">接受</el-button>
+		     </template>
+		   </el-table-column>
+		  <el-table-column align="center" label="操作2" fixed="right" width="75"><template #default="scope">
+		  		  <el-popconfirm
+		        confirm-button-text="确认"
+		        cancel-button-text="取消"
+		        icon="el-icon-info"
+		        icon-color="red"
+		        title="确认拒绝该消息？"
+		        @confirm="Confirm_Notice_no(scope.row)"
+		      >
+		        <template #reference>
+		          <el-button size="small" type="danger">拒绝</el-button>
+		        </template>
+		      </el-popconfirm>
+		    </template>
+		  </el-table-column>
+		  
+
+		  
+		  
+		</el-table>
+		  
+		  
+	        <!-- <li v-for="item in items" v-bind:key="item.message">
+	          {{ item.message }}
+	        </li> -->
+	        <!-- <button v-on:click="add">接受（已读）</button>
+			<button v-on:click="add">拒绝（忽略）type="danger"</button> -->
+	      </div>
+    </el-drawer>
+  
+  
 </template>
 
 <script setup>
 import { ref, reactive, onBeforeMount, computed, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
-import { Search } from "@element-plus/icons-vue";
+import { Search,Message } from "@element-plus/icons-vue";
 import { getToken } from "utils/auth";
-import { getDepositList, deleteDeposit } from "apis/good.js";
+import {getNotice,confirmNotice} from "../apis/notification.js"
+
+const drawer = ref(false);
+
+
+
+// let windowHeight = document.documentElement.clientHeight || document.bodyclientHeight;
+// this.TableHeight = windowHeight - 140;//数值"140"根据需要调整
 
 
 var localurl = window.location.href;
@@ -98,7 +163,49 @@ var team_info = [{
   library_from_team_name:"羡慕死了组",
 }]
 
+const post_notice = {
+	userid:globalProperties.$userid,
+}
+
+
+
+const noticeList = ref([]);
 const depositList = ref([]);
+
+const Confirm_Notice_yes = (row) => {
+	const post_confirm = {
+		noticeid:row.noticeid,
+		choice:"1"
+	};
+	confirmNotice(post_confirm)
+	  .then((res) => {
+	    if (res.code == 0) {
+	      alert("您已确认该消息");
+	    }
+	  })
+	  .catch((err) => {
+	    console.log(err);
+	  });
+}
+
+const Confirm_Notice_no = (row) => {
+	const post_confirm = {
+		noticeid:row.noticeid,
+		choice:"0"
+	};
+	confirmNotice(post_confirm)
+	  .then((res) => {
+	    if (res.code == 0) {
+	      alert("您已拒绝该消息");
+	    }
+	  })
+	  .catch((err) => {
+	    console.log(err);
+	  });	
+}
+
+
+
 const getList = () => {
   depositList.value = team_info;
   // getDepositList(query)
@@ -111,6 +218,19 @@ const getList = () => {
   //   .catch((err) => {
   //     console.log(err);
   //   });
+  
+  
+  //获取所有评论
+  getNotice(post_notice)
+    .then((res) => {
+      if (res.code == 0) {
+        noticeList.value = res.data;
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  
 };
 
 
@@ -145,7 +265,16 @@ const handleDelete = (index, invalid, list) => {
 
 onBeforeMount(() => {
   getList();
+  
 });
+
+
+// created() {
+//     //动态计算表格高度
+//     let windowHeight = document.documentElement.clientHeight || document.bodyclientHeight;
+//     this.TableHeight = windowHeight - 140;//数值"140"根据需要调整
+//   };
+
 </script>
 
 <style scoped>
@@ -179,7 +308,7 @@ onBeforeMount(() => {
   margin-top: 5px;
   margin-left: 20px;
   text-align: left;
-  margin-right: 30px;
+  margin-right: 20px;
 }
 .table {
   margin-top: 20px;
@@ -188,5 +317,9 @@ onBeforeMount(() => {
 }
 .el-pagination {
   justify-content: center;
+}
+.item {
+  margin-top: 10px;
+  margin-right: 10px;
 }
 </style>
