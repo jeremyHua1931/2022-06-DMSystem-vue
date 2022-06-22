@@ -29,12 +29,14 @@
           :collapse="isCollapse"
           class="el-menu-vertical-demo"
         > -->
-          <el-menu-item index="userdocuments" route="/UserDocuments">
+
+          <el-menu-item index="userdocuments" route="/fileShow">
             <el-icon>
-              <odometer/>
+              <Tickets/>
             </el-icon>
-            <template #title>个人模块</template>
+            <template #title>层级页面展示</template>
           </el-menu-item>
+		  
           <el-sub-menu index="team_management">
             <template #title>
               <el-icon>
@@ -47,19 +49,12 @@
 
           </el-sub-menu>
 
-          <el-menu-item index="fileShow" route="/fileShow">
-            <el-icon>
-              <Tickets/>
-            </el-icon>
-            <template #title>层级页面展示</template>
-          </el-menu-item>
-
-          <el-menu-item index="personal" route="/personalInfo">
-            <el-icon>
-              <Tickets/>
-            </el-icon>
-            <template #title>个人信息</template>
-          </el-menu-item>
+		  <el-menu-item index="userdocuments" route="/UserDocuments">
+		    <el-icon>
+		      <odometer/>
+		    </el-icon>
+		    <template #title>个人模块</template>
+		  </el-menu-item>
 
 
           <!-- <el-menu-item index="dashboard" route="/dashboard">

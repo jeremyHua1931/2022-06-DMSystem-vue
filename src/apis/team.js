@@ -1,7 +1,5 @@
 import service from "utils/request";
 
-
-
 /**
  * @description: 获取team列表
  * @param {*} data

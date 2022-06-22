@@ -11,15 +11,13 @@
     "axios": "^0.26.0",
     "echarts": "^5.3.1",
     "element-plus": "^2.0.4",
-    "node-sass": "^7.0.1",
+    "moment": "^2.29.3",
     "vue": "^3.2.25",
     "vue-router": "^4.0.10",
     "wangeditor": "^4.7.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.0",
-    "sass": "^1.52.3",
-    "sass-loader": "^7.3.1",
     "unplugin-auto-import": "^0.6.1",
     "unplugin-vue-components": "^0.17.21",
     "vite": "^2.8.0",

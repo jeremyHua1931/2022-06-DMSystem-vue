@@ -10,7 +10,14 @@ const routes = [
     redirect: "/UserDocuments",
     children: [
 
-
+		{
+			path: "/fileShow",
+			name: "fileShow",
+			component: () => import("views/fileShow.vue"),
+			meta: {
+				title: "文件展示",
+			},
+		},
 		
 		{
 		  path: "/UserDocuments",
@@ -19,14 +26,6 @@ const routes = [
 		  meta: {
 		    title: "用户文献库",
 		  },
-		},
-		{
-			path: "/fileShow",
-			name: "fileShow",
-			component: () => import("views/fileShow.vue"),
-			meta: {
-				title: "文件展示",
-			},
 		},
 		{
 		  path: "/TeamList",
@@ -52,14 +51,6 @@ const routes = [
 	      title: "团队管理界面",
 	    },
 	  },
-		{
-			path: "/personalInfo",
-			name: "personalInfo",
-			component: () => import("views/personalInfo.vue"),
-			meta: {
-				title: "个人信息管理",
-			},
-		},
 
     ],
   },
