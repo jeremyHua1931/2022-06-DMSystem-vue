@@ -66,6 +66,7 @@ const query = reactive({
 });
 const TeamList = ref([]);
 const getList = () => {
+  console.log("开始打印团队")
   getTeams(query)
       .then((res) => {
         if (res.code == 0) {

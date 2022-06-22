@@ -4,7 +4,7 @@ import { TokenKey, getToken, setToken, removeToken } from "@/utils/auth";
 
 const router = useRouter();
 
-export const baseURL ="http://10.131.167.11:8082"
+export const baseURL ="http://192.168.43.148:8082"
 
 const service = axios.create({
   baseURL: baseURL,
