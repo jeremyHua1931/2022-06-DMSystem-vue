@@ -8,7 +8,7 @@
               <span>个人中心</span>
             </div>
             <div class="name-role">
-              <span class="sender">Admin - {{dataForm.nickName}}</span>
+              <span class="sender">{{dataForm.nickName}}</span>
             </div>
             <div class="registe-info">
           <span class="registe-info">
@@ -104,18 +104,18 @@
 <script>
 import axios from "axios";
 import {baseURL} from "../utils/request";
-const userid =1
+const userid = 1
 export default {
 
   data(){
     return{
       dataForm:{
-        nickName: '请求中...可点击右上角刷新按钮重试',
-        phone: '请求中...可点击右上角刷新按钮重试',
-        homeUrl: '请求中...可点击右上角刷新按钮重试',
-        desc:'请求中...可点击右上角刷新按钮重试',
+        nickName: '请求中...',
+        phone: '请求中...',
+        homeUrl: '请求中...',
+        desc:'请求中...',
         formerPwd:"若要修改密码则必填",
-        time:'请求中...可点击右上角刷新按钮重试',
+        time:'请求中...',
         pwd:"新密码"
       },
       editForm:{
@@ -163,7 +163,7 @@ export default {
               pwd: "新密码"
             }
             this.alreadyGet=true
-          })
+          }).catch(()=>alert("请求失败"))
     },
     submitInfo(){
       console.log(this.editForm)
