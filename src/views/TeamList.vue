@@ -1,12 +1,12 @@
 <template>
   <div class="table">
     <el-table :data="TeamList" border style="width: 100%">
-      <el-table-column prop="team_id" label="团队编号" width=""/>
-      <el-table-column prop="team_name" label="团队名称" width=""/>
-      <el-table-column prop="team_leader_id" label="团队组长" width=""/>
-      <el-table-column prop="team_administrators" label="团队管理员" width=""/>
-      <el-table-column prop="team_member_num" label="团队组员数" width=""/>
-      <el-table-column label="操作" fixed="right" width="180"
+      <el-table-column align="center" prop="team_id" label="团队编号" width=""/>
+      <el-table-column align="center" prop="team_name" label="团队名称" width=""/>
+      <el-table-column align="center" prop="team_leader_id" label="团队组长" width=""/>
+      <el-table-column align="center" prop="team_administrators" label="管理员" width=""/>
+      <el-table-column align="center" prop="team_member_num" label="组员数" width=""/>
+      <el-table-column align="center" label="操作" fixed="right" width="180"
       >
         <template #default="scope">
           <el-link

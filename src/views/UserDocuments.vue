@@ -32,11 +32,11 @@
         <template #default="scope">
           <el-avatar :src="scope.row.image"></el-avatar></template
       ></el-table-column> -->
-      <el-table-column prop="document_id" label="文献编号" width="" />
-      <el-table-column prop="document_name" label="文献名称" width="" />
-      <el-table-column prop="library_from_team_id" label="文献库所属团队编号" width="" />
-      <el-table-column prop="library_from_team_name" label="文献库所属团队名称" width="" />
-      <el-table-column label="操作" fixed="right" width="180"><template #default="scope">
+      <el-table-column align="center" prop="document_id" label="文献编号" width="" />
+      <el-table-column align="center" prop="document_name" label="文献名称" width="" />
+      <el-table-column align="center" prop="library_from_team_id" label="文献库所属团队编号" width="" />
+      <el-table-column align="center" prop="library_from_team_name" label="文献库所属团队名称" width="" />
+      <el-table-column align="center" label="操作" fixed="right" width="180"><template #default="scope">
           <el-button size="small" @click="modify(scope.row)">进入文献库</el-button>
           <el-divider direction="vertical"></el-divider>
 		  <el-popconfirm
@@ -72,6 +72,11 @@ import { useRouter } from "vue-router";
 import { Search } from "@element-plus/icons-vue";
 import { getToken } from "utils/auth";
 import { getDepositList, deleteDeposit } from "apis/good.js";
+
+
+var localurl = window.location.href;
+var userid = localurl.split("?userid=")[1];
+console.log("解析的userid为",userid);
 
 const count = ref(0);
 const query = reactive({
