@@ -32,11 +32,11 @@
         <template #default="scope">
           <el-avatar :src="scope.row.image"></el-avatar></template
       ></el-table-column> -->
-      <el-table-column align="center" prop="library_id" label="文献库编号" width="" />
-      <el-table-column align="center" prop="library_name" label="文献库名称" width="" />
-      <el-table-column align="center" prop="library_from_team_id" label="文献库所属团队编号" width="" />
-      <el-table-column align="center" prop="library_from_team_name" label="文献库所属团队名称" width="" />
-      <el-table-column align="center" label="操作" fixed="right" width="180"><template #default="scope">
+      <el-table-column prop="library_id" label="文献库编号" width="" />
+      <el-table-column prop="library_name" label="文献库名称" width="" />
+      <el-table-column prop="library_from_team_id" label="文献库所属团队编号" width="" />
+      <el-table-column prop="library_from_team_name" label="文献库所属团队名称" width="" />
+      <el-table-column label="操作" fixed="right" width="180"><template #default="scope">
           <el-button size="small" @click="modify(scope.row)">进入文献库</el-button>
 		  <el-divider direction="vertical"></el-divider>
           <el-popconfirm
