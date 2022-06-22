@@ -6,11 +6,11 @@ import service from "utils/request";
  * @return {*}
  */
  export const getUserStats = (params) => {
-    return service({
-      url: "/admin/dashboard/user",
-      method: "get",
-      params,
-    });
+    // return service({
+    //   url: "/admin/dashboard/user",
+    //   method: "get",
+    //   params,
+    // });
   };
   
 /**
@@ -19,9 +19,9 @@ import service from "utils/request";
  * @return {*}
  */
 export const getSaleStats = (params) => {
-  return service({
-    url: "/admin/dashboard/sale",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/dashboard/sale",
+  //   method: "get",
+  //   params,
+  // });
 };

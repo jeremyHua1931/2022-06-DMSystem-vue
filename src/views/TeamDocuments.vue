@@ -6,7 +6,7 @@
           type="text"
           v-model="query.name"
           @keyup.enter.capture="getList"
-          placeholder="请输入产品名"
+          placeholder="请输入团队名"
         />
         <el-button @click="getList" :icon="Search" type="text" circle></el-button>
       </div>
@@ -70,8 +70,8 @@
 import { ref, reactive, onBeforeMount, computed } from "vue";
 import { useRouter } from "vue-router";
 import { Search } from "@element-plus/icons-vue";
-import { getToken } from "utils/auth";
-import { getDepositList, deleteDeposit } from "apis/good.js";
+// import { getToken } from "utils/auth";
+// import { getDepositList, deleteDeposit } from "apis/good.js";
 
 const count = ref(0);
 const query = reactive({
@@ -81,30 +81,33 @@ const query = reactive({
   size: 10,
 });
 const depositList = ref([]);
+var team_info = [{
+  library_id:1,
+  library_name:"羡慕死了组的文献库",
+  library_from_team_id:"1",
+  library_from_team_name:"羡慕死了组",
+}]
 const getList = () => {
-  getDepositList(query)
-    .then((res) => {
-      if (res.code == 200) {
-        depositList.value = res.data.depositList;
-        count.value = res.data.count;
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+
+  depositList.value = team_info;
+  // getDepositList(query)
+  //   .then((res) => {
+  //     if (res.code == 200) {
+  //       depositList.value = res.data.depositList;
+  //       count.value = res.data.count;
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 };
 
-var team_info = [{
-	library_id:1,
-	library_name:"羡慕死了组的文献库",
-	library_from_team_id:"1",
-	library_from_team_name:"羡慕死了组",
-}]
 
-depositList.value = team_info;
 
+
+//TODO: 新增文献库
 const add = () => {
-  router.push("/depositRelease");
+  // router.push("/depositRelease");
 };
 
 const router = useRouter();

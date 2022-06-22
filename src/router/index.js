@@ -2,13 +2,22 @@ import { createRouter, createWebHistory } from "vue-router";
 import { getToken } from "utils/auth";
 
 const routes = [
-  { path: "/login", component: () => import("views/login.vue") },
+  // { path: "/login", component: () => import("views/login.vue") },
   {
     path: "/",
     name: "index",
     component: () => import("views/layout.vue"),
     redirect: "/UserDocuments",
     children: [
+
+		{
+			path: "/fileShow",
+			name: "fileShow",
+			component: () => import("views/fileShow.vue"),
+			meta: {
+				title: "文件展示",
+			},
+		},
 		
 		{
 		  path: "/UserDocuments",
@@ -42,6 +51,7 @@ const routes = [
 	      title: "团队管理界面",
 	    },
 	  },
+
     ],
   },
   {
@@ -57,7 +67,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory('/admin'),
+  history: createWebHistory(''),
   routes,
 });
 

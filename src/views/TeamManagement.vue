@@ -49,7 +49,7 @@
 import { ref, reactive, onBeforeMount, computed} from "vue";
 import { useRouter } from "vue-router";
 import { Search } from "@element-plus/icons-vue";
-import { getToken } from "utils/auth";
+// import { getToken } from "utils/auth";
 // import { getDepositList, deleteDeposit } from "apis/good.js";
 import {getAllTeamers} from "apis/team.js"
 
@@ -79,10 +79,10 @@ const getList = () => {
     });
 };
 
-
-const add = () => {
-  router.push("/depositRelease");
-};
+//
+// const add = () => {
+//   // router.push("/depositRelease");
+// };
 
 
 const modify = (row) => {

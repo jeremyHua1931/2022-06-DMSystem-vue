@@ -6,11 +6,11 @@ import service from "utils/request";
  * @return {*}
  */
 export const getRuleList = (params) => {
-  return service({
-    url: "/admin/rule/getRuleList",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/rule/getRuleList",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -19,11 +19,11 @@ export const getRuleList = (params) => {
  * @return {*}
  */
 export const addRule = (data) => {
-  return service({
-    url: "/admin/rule/addRule",
-    method: "post",
-    data,
-  });
+  // return service({
+  //   url: "/admin/rule/addRule",
+  //   method: "post",
+  //   data,
+  // });
 };
 
 /**
@@ -32,11 +32,11 @@ export const addRule = (data) => {
  * @return {*}
  */
 export const updateRule = (data) => {
-  return service({
-    url: "/admin/rule/modifyRule",
-    method: "put",
-    data,
-  });
+  // return service({
+  //   url: "/admin/rule/modifyRule",
+  //   method: "put",
+  //   data,
+  // });
 };
 
 /**
@@ -45,11 +45,11 @@ export const updateRule = (data) => {
  * @return {*}
  */
 export const deleteRule = (params) => {
-  return service({
-    url: "/admin/rule/deleteRule",
-    method: "delete",
-    params,
-  });
+  // return service({
+  //   url: "/admin/rule/deleteRule",
+  //   method: "delete",
+  //   params,
+  // });
 };
 
 /**
@@ -58,11 +58,11 @@ export const deleteRule = (params) => {
  * @return {*}
  */
 export const getDepositRuleList = (params) => {
-  return service({
-    url: "/admin/rule/depositRuleList",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/rule/depositRuleList",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -71,11 +71,11 @@ export const getDepositRuleList = (params) => {
  * @return {*}
  */
  export const getLoanRuleList = (params) => {
-    return service({
-      url: "/admin/rule/loanRuleList",
-      method: "get",
-      params,
-    });
+    // return service({
+    //   url: "/admin/rule/loanRuleList",
+    //   method: "get",
+    //   params,
+    // });
   };
   
 /**
@@ -84,11 +84,11 @@ export const getDepositRuleList = (params) => {
  * @return {*}
  */
 export const getRuleGroupList = (params) => {
-  return service({
-    url: "/admin/rule/getRuleGroupList",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/rule/getRuleGroupList",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -97,11 +97,11 @@ export const getRuleGroupList = (params) => {
  * @return {*}
  */
 export const addRuleGroup = (data) => {
-  return service({
-    url: "/admin/rule/addRuleGroup",
-    method: "post",
-    data,
-  });
+  // return service({
+  //   url: "/admin/rule/addRuleGroup",
+  //   method: "post",
+  //   data,
+  // });
 };
 
 /**
@@ -110,11 +110,11 @@ export const addRuleGroup = (data) => {
  * @return {*}
  */
 export const updateRuleGroup = (data) => {
-  return service({
-    url: "/admin/rule/updateRuleGroup",
-    method: "put",
-    data,
-  });
+  // return service({
+  //   url: "/admin/rule/updateRuleGroup",
+  //   method: "put",
+  //   data,
+  // });
 };
 
 /**
@@ -123,9 +123,9 @@ export const updateRuleGroup = (data) => {
  * @return {*}
  */
 export const deleteRuleGroup = (params) => {
-  return service({
-    url: "/admin/rule/deleteRuleGroup",
-    method: "delete",
-    params,
-  });
+  // return service({
+  //   url: "/admin/rule/deleteRuleGroup",
+  //   method: "delete",
+  //   params,
+  // });
 };

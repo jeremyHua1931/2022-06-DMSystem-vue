@@ -6,11 +6,11 @@ import service from "utils/request";
  * @return {*}
  */
 export const login = (data) => {
-  return service({
-    url: "/admin/user/login",
-    method: "post",
-    data,
-  });
+  // return service({
+  //   url: "/admin/user/login",
+  //   method: "post",
+  //   data,
+  // });
 };
 
 /**
@@ -19,11 +19,11 @@ export const login = (data) => {
  * @return {*}
  */
 export const getAdminInfo = (params) => {
-  return service({
-    url: "/admin/user/getInfo",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/user/getInfo",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -32,11 +32,11 @@ export const getAdminInfo = (params) => {
  * @return {*}
  */
 export const getAdminList = (params) => {
-  return service({
-    url: "/admin/user/adminList",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/user/adminList",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -45,11 +45,11 @@ export const getAdminList = (params) => {
  * @return {*}
  */
 export const addAdmin = (data) => {
-  return service({
-    url: "/admin/user/add",
-    method: "post",
-    data,
-  });
+  // return service({
+  //   url: "/admin/user/add",
+  //   method: "post",
+  //   data,
+  // });
 };
 
 /**
@@ -58,11 +58,11 @@ export const addAdmin = (data) => {
  * @return {*}
  */
 export const updateAdminInfo = (data) => {
-  return service({
-    url: "/admin/user/updateInfo",
-    method: "put",
-    data,
-  });
+  // return service({
+  //   url: "/admin/user/updateInfo",
+  //   method: "put",
+  //   data,
+  // });
 };
 
 /**
@@ -71,10 +71,10 @@ export const updateAdminInfo = (data) => {
  * @return {*}
  */
 export const deleteAdmin = (params) => {
-  return service({
-    url: "/admin/user/delete",
-    method: "delete",
-    params,
-  });
+  // return service({
+  //   url: "/admin/user/delete",
+  //   method: "delete",
+  //   params,
+  // });
 };
 

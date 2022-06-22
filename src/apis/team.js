@@ -1,17 +1,5 @@
 import service from "utils/request";
 
-/**
- * @description: 获取team列表
- * @param {*} data
- * @return {*}
- */
-export const addDeposit = (data) => {
-  return service({
-    url: "/admin/good/addDeposit",
-    method: "post",
-    data,
-  });
-};
 
 
 /**
@@ -21,7 +9,7 @@ export const addDeposit = (data) => {
  */
 export const getTeams = (data) => {
   return service({
-    url: "http://10.131.167.11:8082/team/getTeams",
+    url: "/team/getTeams",
     method: "post",
     data,
   });
@@ -34,7 +22,7 @@ export const getTeams = (data) => {
  */
 export const getAllTeamers = (data) => {
   return service({
-    url: "http://10.131.167.11:8082/team/getAllTeamers",
+    url: "/team/getAllTeamers",
     method: "post",
     data,
   });

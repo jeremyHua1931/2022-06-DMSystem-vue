@@ -19,11 +19,11 @@ export const addDeposit = (data) => {
  * @return {*}
  */
 export const getDepositList = (params) => {
-  return service({
-    url: "/admin/good/getDepositList",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/good/getDepositList",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -32,11 +32,11 @@ export const getDepositList = (params) => {
  * @return {*}
  */
 export const getDepositDetail = (params) => {
-  return service({
-    url: "/admin/good/getDepositDetail",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/good/getDepositDetail",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -45,11 +45,11 @@ export const getDepositDetail = (params) => {
  * @return {*}
  */
 export const updateDeposit = (data) => {
-  return service({
-    url: "/admin/good/updateDeposit",
-    method: "put",
-    data,
-  });
+  // return service({
+  //   url: "/admin/good/updateDeposit",
+  //   method: "put",
+  //   data,
+  // });
 };
 
 /**
@@ -58,11 +58,11 @@ export const updateDeposit = (data) => {
  * @return {*}
  */
 export const deleteDeposit = (params) => {
-  return service({
-    url: "/admin/good/deleteDeposit",
-    method: "delete",
-    params,
-  });
+  // return service({
+  //   url: "/admin/good/deleteDeposit",
+  //   method: "delete",
+  //   params,
+  // });
 };
 
 /**
@@ -71,11 +71,11 @@ export const deleteDeposit = (params) => {
  * @return {*}
  */
 export const addLoan = (data) => {
-  return service({
-    url: "/admin/good/addLoan",
-    method: "post",
-    data,
-  });
+  // return service({
+  //   url: "/admin/good/addLoan",
+  //   method: "post",
+  //   data,
+  // });
 };
 
 /**
@@ -84,11 +84,11 @@ export const addLoan = (data) => {
  * @return {*}
  */
 export const getLoanList = (params) => {
-  return service({
-    url: "/admin/good/getLoanList",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/good/getLoanList",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -97,11 +97,11 @@ export const getLoanList = (params) => {
  * @return {*}
  */
 export const getLoanDetail = (params) => {
-  return service({
-    url: "/admin/good/getLoanDetail",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/good/getLoanDetail",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -110,11 +110,11 @@ export const getLoanDetail = (params) => {
  * @return {*}
  */
 export const updateLoan = (data) => {
-  return service({
-    url: "/admin/good/updateLoan",
-    method: "put",
-    data,
-  });
+  // return service({
+  //   url: "/admin/good/updateLoan",
+  //   method: "put",
+  //   data,
+  // });
 };
 
 /**
@@ -123,11 +123,11 @@ export const updateLoan = (data) => {
  * @return {*}
  */
 export const deleteLoan = (params) => {
-  return service({
-    url: "/admin/good/deleteLoan",
-    method: "delete",
-    params,
-  });
+  // return service({
+  //   url: "/admin/good/deleteLoan",
+  //   method: "delete",
+  //   params,
+  // });
 };
 
 /**
@@ -136,11 +136,11 @@ export const deleteLoan = (params) => {
  * @return {*}
  */
 export const getDepositOrderList = (params) => {
-  return service({
-    url: "/admin/good/getDepositListById",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/good/getDepositListById",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -149,11 +149,11 @@ export const getDepositOrderList = (params) => {
  * @return {*}
  */
 export const getLoanOrderList = (params) => {
-  return service({
-    url: "/admin/good/getLoanListById",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/good/getLoanListById",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -162,11 +162,11 @@ export const getLoanOrderList = (params) => {
  * @return {*}
  */
  export const getOrderList = (params) => {
-    return service({
-      url: "admin/good/getOrderList",
-      method: "get",
-      params,
-    });
+    // return service({
+    //   url: "admin/good/getOrderList",
+    //   method: "get",
+    //   params,
+    // });
   };
   
   

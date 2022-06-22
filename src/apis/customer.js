@@ -6,11 +6,11 @@ import service from "utils/request";
  * @return {*}
  */
 export const getCustomerList = (params) => {
-  return service({
-    url: "/admin/client/userList",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/client/userList",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -19,11 +19,11 @@ export const getCustomerList = (params) => {
  * @return {*}
  */
 export const deleteCustomer = (params) => {
-  return service({
-    url: "/admin/client/delete",
-    method: "delete",
-    params,
-  });
+  // return service({
+  //   url: "/admin/client/delete",
+  //   method: "delete",
+  //   params,
+  // });
 };
 
 /**
@@ -32,11 +32,11 @@ export const deleteCustomer = (params) => {
  * @return {*}
  */
 export const getDepositFilterResult = (params) => {
-  return service({
-    url: "/admin/client/depositFilterResult",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/client/depositFilterResult",
+  //   method: "get",
+  //   params,
+  // });
 };
 
 /**
@@ -45,31 +45,31 @@ export const getDepositFilterResult = (params) => {
  * @return {*}
  */
 export const getLoanFilterResult = (params) => {
-  return service({
-    url: "/admin/client/loanFilterResult",
-    method: "get",
-    params,
-  });
+  // return service({
+  //   url: "/admin/client/loanFilterResult",
+  //   method: "get",
+  //   params,
+  // });
 };
 
-import axios from "axios";
-import { baseURL } from "utils/request";
-import { TokenKey, getToken, setToken } from "@/utils/auth";
-const req = axios.create({
-  baseURL: baseURL,
-  timeout: 8000,
-  headers: {},
-});
-// 添加请求拦截器
-req.interceptors.request.use(
-  function (config) {
-    config.headers[TokenKey] = getToken() || "";
-    return config;
-  },
-  function (error) {
-    return Promise.reject(error);
-  }
-);
+// import axios from "axios";
+// import { baseURL } from "utils/request";
+// import { TokenKey, getToken, setToken } from "@/utils/auth";
+// const req = axios.create({
+//   baseURL: baseURL,
+//   timeout: 8000,
+//   headers: {},
+// });
+// // 添加请求拦截器
+// req.interceptors.request.use(
+//   function (config) {
+//     config.headers[TokenKey] = getToken() || "";
+//     return config;
+//   },
+//   function (error) {
+//     return Promise.reject(error);
+//   }
+// );
 
 /**
  * @description: 获取客户模板表格
@@ -77,9 +77,9 @@ req.interceptors.request.use(
  * @return {*}
  */
 export const getCustomerExcelTemplate = () => {
-  return req({
-    responseType: "blob",
-    url: "/admin/client/download",
-    method: "get",
-  });
+  // return req({
+  //   responseType: "blob",
+  //   url: "/admin/client/download",
+  //   method: "get",
+  // });
 };

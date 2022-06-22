@@ -80,26 +80,28 @@ const query = reactive({
   page: 1,
   size: 10,
 });
+var team_info = [{
+  document_id:1,
+  document_name:"XXXX.pdf",
+  library_from_team_id:"1",
+  library_from_team_name:"羡慕死了组",
+}]
+
 const depositList = ref([]);
 const getList = () => {
-  getDepositList(query)
-    .then((res) => {
-      if (res.code == 200) {
-        depositList.value = res.data.depositList;
-        count.value = res.data.count;
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  depositList.value = team_info;
+  // getDepositList(query)
+  //   .then((res) => {
+  //     if (res.code == 200) {
+  //       depositList.value = res.data.depositList;
+  //       count.value = res.data.count;
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 };
 
-var team_info = [{
-	document_id:1,
-	document_name:"XXXX.pdf",
-	library_from_team_id:"1",
-	library_from_team_name:"羡慕死了组",
-}]
 
 depositList.value = team_info;
 
