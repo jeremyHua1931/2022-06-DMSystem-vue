@@ -54,6 +54,13 @@
             <template #title>层级页面展示</template>
           </el-menu-item>
 
+          <el-menu-item index="personal" route="/personalInfo">
+            <el-icon>
+              <Tickets/>
+            </el-icon>
+            <template #title>个人信息</template>
+          </el-menu-item>
+
 
           <!-- <el-menu-item index="dashboard" route="/dashboard">
             <el-icon><odometer /></el-icon>
