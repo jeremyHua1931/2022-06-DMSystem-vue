@@ -14,7 +14,7 @@
           <span class="registe-info">
             注册时间：
             <li class="fa fa-clock-o"></li>
-             2020/4/10 9:40:33
+             {{dataForm.time}}
           </span>
             </div>
             <el-divider></el-divider>
@@ -27,49 +27,84 @@
             <div class="personal-relation">
               <div class="relation-item">邮箱:  <div style="float: right; padding-right:20px;">{{dataForm.homeUrl}}</div></div>
             </div>
+            <div class="personal-relation">
+              <div class="relation-item">个人简介:  <div style="float: right; padding-right:20px;">{{dataForm.desc}}</div></div>
+            </div>
           </el-card>
         </div>
       </el-col>
-      <el-col :span="16">
+      <el-col :span="10">
         <div class="grid-content bg-purple">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>基本资料</span>
             </div>
             <div>
-              <el-form label-width="80px" v-model="dataFrom" size="small" label-position="right">
+              <el-form label-width="80px" v-model=editForm size="small" label-position="right">
                 <el-form-item label="用户昵称" prop="nickName">
-                  <el-input  auto-complete="off" v-model="dataForm.nickName"></el-input>
+                  <el-input  auto-complete="off" v-model="editForm.nickName"></el-input>
                 </el-form-item>
                 <el-form-item label="手机号" prop="phone">
-                  <el-input auto-complete="off" v-model="dataForm.phone"></el-input>
+                  <el-input auto-complete="off" v-model="editForm.phone"></el-input>
                 </el-form-item>
-                <el-form-item label="首页链接" prop="homeUrl">
-                  <el-input  maxlength="18" v-model="dataForm.homeUrl"></el-input>
+                <el-form-item label="邮箱" prop="homeUrl">
+                  <el-input  maxlength="18" v-model="editForm.homeUrl"></el-input>
                 </el-form-item>
-                <el-form-item label="旧密码" prop="homeUrl">
-                  <el-input  maxlength="18" v-model="dataForm.homeUrl"></el-input>
+                <el-form-item label="个人简介" prop="homeUrl">
+                  <el-input  maxlength="18" v-model="editForm.desc"></el-input>
                 </el-form-item>
-                <el-form-item label="新密码" prop="homeUrl">
-                  <el-input  maxlength="18" v-model="dataForm.homeUrl"></el-input>
-                </el-form-item>
+
               </el-form>
               <div slot="footer" class="dialog-footer">
                 <el-button size="mini" type="primary" @click="submitInfo">提交</el-button>
-                <el-button size="mini" type="warning" >关闭</el-button>
+
               </div>
+
+
             </div>
           </el-card>
         </div>
+
+      </el-col>
+      <el-col :span="6">
+        <div class="grid-content bg-purple">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>密码</span>
+            </div>
+            <div>
+              <el-form label-width="80px" v-model=pwdForm size="small" label-position="right">
+                <el-form-item label="旧密码" prop="nickName">
+                  <el-input  auto-complete="off" v-model="pwdForm.formerPwd"></el-input>
+                </el-form-item>
+                <el-form-item label="新密码" prop="phone">
+                  <el-input auto-complete="off" v-model="pwdForm.pwd"></el-input>
+                </el-form-item>
+
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button size="mini" type="warning" @click="submitPwd">修改密码</el-button>
+              </div>
+
+
+            </div>
+          </el-card>
+        </div>
+
       </el-col>
 
+
     </el-row>
+
+
   </div>
+
 </template>
 
 <script>
 import axios from "axios";
 import {baseURL} from "../utils/request";
+const userid =1
 export default {
 
   data(){
@@ -77,15 +112,33 @@ export default {
       dataForm:{
         nickName: '请求中...可点击右上角刷新按钮重试',
         phone: '请求中...可点击右上角刷新按钮重试',
-        homeUrl: '请求中...可点击右上角刷新按钮重试'
+        homeUrl: '请求中...可点击右上角刷新按钮重试',
+        desc:'请求中...可点击右上角刷新按钮重试',
+        formerPwd:"若要修改密码则必填",
+        time:'请求中...可点击右上角刷新按钮重试',
+        pwd:"新密码"
       },
-      alreadyGet:false
+      editForm:{
+        nickName: '请输入新昵称',
+        phone: '请输入新电话号码',
+        homeUrl: '请输入新邮箱地址',
+        desc:'请输入新个人简介',
+        formerPwd:"若要修改密码则必填",
+        time:'请求中...可点击右上角刷新按钮重试',
+        pwd:"新密码"
+      },
+      pwdForm:{
+        formerPwd:"请输入旧密码",
+        pwd:"请输入新密码"
+      },
+      alreadyGet:false,
+      show : true
     }
   },
   methods: {
     getInfo() {
       let data = {
-        "userid": "1"
+        "userid": userid
       };
       axios.post(baseURL + '/user/info', data)
           .then(
@@ -94,14 +147,75 @@ export default {
             this.dataForm = {
               nickName: res.data.data[0].name,
               phone: res.data.data[0].phone,
-              homeUrl: res.data.data[0].email
+              homeUrl: res.data.data[0].email,
+              desc: res.data.data[0].description,
+              time: res.data.data[0].registertime,
+              formerPwd: "若要修改密码则必填",
+              pwd: "新密码"
+            }
+            this.editForm = {
+              nickName: res.data.data[0].name,
+              phone: res.data.data[0].phone,
+              homeUrl: res.data.data[0].email,
+              desc: res.data.data[0].description,
+              time: res.data.data[0].registertime,
+              formerPwd: "若要修改密码则必填",
+              pwd: "新密码"
             }
             this.alreadyGet=true
           })
     },
     submitInfo(){
-      console.log("提交新的用户信息")
+      console.log(this.editForm)
+        let data = {
+          "userid": userid,
+          name: this.editForm.nickName,
+          phone: this.editForm.phone,
+          email: this.editForm.homeUrl,
+          description: this.editForm.desc,
+          time: this.editForm.time,
+          formerPwd: "若要修改密码则必填",
+          pwd: "新密码"
+        };
+        axios.post(baseURL + '/user/editinfo', data)
+            .then(
+                res => {
+                  console.log(res.data.data)
+                  if(res.data.code==0){
+                    this.dataForm = this.editForm
+                  }
+                  this.getInfo()
+                })
+      },
+    submitPwd(){
+      console.log(this.pwdForm)
+      if(this.pwdForm.pwd.length<6){
+        alert("密码长度需大于等于6")
+      }else if(this.pwdForm.pwd=="请输入新密码"||this.pwdForm.formerPwd=="请输入旧密码"){
+        alert("请输入新/旧密码")
+      }
+      else
+      {
+      let data = {
+        "userid": userid,
+        "oldPassword": this.pwdForm.formerPwd,
+        "newPassword": this.pwdForm.pwd
+      };
+      console.log(data)
+      axios.post(baseURL + '/user/editpassword', data)
+          .then(
+              res => {
+                console.log(res.data.code)
+                if(res.data.code==0){
+                      alert("密码修改成功")
+                }else{
+                  alert("密码修改失败，请检查旧密码是否有误")
+                }
+                this.getInfo()
+              })
     }
+    }
+
   },
   mounted() {
       this.getInfo()
