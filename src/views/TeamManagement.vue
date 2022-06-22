@@ -6,16 +6,17 @@
         <template #default="scope">
           <el-avatar :src="scope.row.image"></el-avatar></template
       ></el-table-column> -->
-      <el-table-column prop="team_id" label="团队编号" width="" />
-      <el-table-column prop="team_name" label="团队名称" width="" />
-	  <el-table-column prop="member_id" label="团队成员ID" width="" />
-      <el-table-column prop="member_name" label="团队成员昵称" width="" />
-      <el-table-column prop="member_permission" label="成员权限" width="" />
-      <el-table-column v-if="type===1" key = "1" label="操作" fixed="right" width="180"
+      <el-table-column align="center" prop="team_id" label="团队编号" width="" />
+      <el-table-column align="center" prop="team_name" label="团队名称" width="" />
+	  <el-table-column align="center" prop="member_id" label="团队成员ID" width="" />
+      <el-table-column align="center" prop="member_name" label="团队成员昵称" width="" />
+      <el-table-column align="center" prop="member_permission" label="成员权限" width="" />
+      <el-table-column align="center" label="操作" fixed="right" width="180"
         ><template #default="scope">
-          <el-button size="small" @click="modify(scope.row)">编辑</el-button>
-		<el-divider direction="vertical"></el-divider>
+          <el-button v-if="scope.row.type==1" size="small" @click="modify(scope.row)">编辑</el-button>
+		<el-divider v-if="scope.row.type==1" direction="vertical"></el-divider>
 		<el-popconfirm
+		   v-if="scope.row.type==1"
 		  confirm-button-text="确认"
 		  cancel-button-text="取消"
 		  icon="el-icon-info"
@@ -24,9 +25,10 @@
 		  @confirm="handleDelete(scope.$index, scope.row)"
 		>
 		  <template #reference>
-		    <el-button size="small" type="danger">删除</el-button>
+		    <el-button v-if="scope.row.type==1" size="small" type="danger">删除</el-button>
 		  </template>
 		</el-popconfirm>
+		<p v-else>暂无权限，仅供浏览</p>
         </template>
       </el-table-column>
 	  

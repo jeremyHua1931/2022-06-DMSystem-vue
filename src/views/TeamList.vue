@@ -1,12 +1,12 @@
 <template>
   <div class="table">
     <el-table :data="TeamList" border style="width: 100%">
-      <el-table-column prop="team_id" label="团队编号" width=""/>
-      <el-table-column prop="team_name" label="团队名称" width=""/>
-      <el-table-column prop="team_leader_id" label="团队组长" width=""/>
-      <el-table-column prop="team_administrators" label="团队管理员" width=""/>
-      <el-table-column prop="team_member_num" label="团队组员数" width=""/>
-      <el-table-column label="操作" fixed="right" width="180"
+      <el-table-column align="center" prop="team_id" label="团队编号" width=""/>
+      <el-table-column align="center" prop="team_name" label="团队名称" width=""/>
+      <el-table-column align="center" prop="team_leader_id" label="团队组长" width=""/>
+      <el-table-column align="center" prop="team_administrators" label="管理员" width=""/>
+      <el-table-column align="center" prop="team_member_num" label="组员数" width=""/>
+      <el-table-column align="center" label="操作" fixed="right" width="180"
       >
         <template #default="scope">
           <el-link
@@ -58,7 +58,7 @@ import {Search} from "@element-plus/icons-vue";
 import {getTeams} from "../apis/team.js";
 
 
-const userid = '1';
+const userid = '3';
 
 const count = ref(0);
 const query = reactive({
@@ -66,6 +66,7 @@ const query = reactive({
 });
 const TeamList = ref([]);
 const getList = () => {
+  console.log("开始打印团队")
   getTeams(query)
       .then((res) => {
         if (res.code == 0) {
