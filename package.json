@@ -13,6 +13,7 @@
     "element-plus": "^2.0.4",
     "node-sass": "^7.0.1",
     "vue": "^3.2.25",
+    "vue-demi": "^0.13.1",
     "vue-router": "^4.0.10",
     "wangeditor": "^4.7.12"
   },

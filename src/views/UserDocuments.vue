@@ -23,8 +23,9 @@
       </el-select>
     </div>
     <div class="toolbar-right">
-     <el-badge :value="noticeList.length" class="item">
-         <el-button :icon="Message" type="primary" @click="drawer = true">未读消息</el-button>
+     <el-badge :value="globalProperties.$noticeNum" class="item">
+         <el-button :key="Math.random()" :icon="Message" type="primary" @click="drawer = true" v-model.sync="noticeNum">未读消息</el-button>
+
        </el-badge>
     </div>
   </div>
@@ -81,29 +82,34 @@
 		  <el-table-column type="expand">
 		        <template #default="props">
 		          <div m="4">
-		            <p m="t-0 b-2" style="width: 100%;height: 45px;display: block;line-height: 45px;text-align: center;">{{ props.row.content}}</p>
+		            <p m="t-0 b-2" style="width: 90%;height: 60px;display: block;line-height: 30px;">{{ props.row.content}}</p>
 		          </div>
 		        </template>
 		      </el-table-column>
 		  
-		   <el-table-column align="center" label="消息" width="" >邀请通知</el-table-column>
-		   <el-table-column align="center" label="操作1" fixed="right" width="75"><template #default="scope">
+		   <el-table-column  prop="notice" align="center" label="消息" width="" ></el-table-column>
+		  <!-- <el-table-column align="center" label="操作1" fixed="right" width="75"><template #default="scope">
 		       <el-button size="small" @click="Confirm_Notice_yes(scope.row)">接受</el-button>
 		     </template>
-		   </el-table-column>
-		  <el-table-column align="center" label="操作2" fixed="right" width="75"><template #default="scope">
-		  		  <el-popconfirm
+		   </el-table-column> -->
+		  <el-table-column align="center" label="操作" fixed="right" width="120"><template #default="scope">
+		  		 <el-button v-if="scope.row.type==1" size="small" @click="Confirm_Notice_yes(scope.$index,scope.row)">接受</el-button>
+				 <el-divider v-if="scope.row.type==1" style="margin: 8px 0;background: 0 0;border-top: 1px dashed #e8eaec;"></el-divider>
+				  <el-popconfirm 
+				v-if="scope.row.type==1"
 		        confirm-button-text="确认"
 		        cancel-button-text="取消"
 		        icon="el-icon-info"
 		        icon-color="red"
 		        title="确认拒绝该消息？"
-		        @confirm="Confirm_Notice_no(scope.row)"
+		        @confirm="Confirm_Notice_no(scope.$index,scope.row)"
 		      >
 		        <template #reference>
-		          <el-button size="small" type="danger">拒绝</el-button>
+		          <el-button v-if="scope.row.type==1" size="small" type="danger">拒绝</el-button>
+				  
 		        </template>
 		      </el-popconfirm>
+			  <el-button line v-if="scope.row.type==0" size="small" type="primary" @click="Confirm_Notice_yes(scope.$index,scope.row)">已读</el-button>
 		    </template>
 		  </el-table-column>
 		  
@@ -131,8 +137,24 @@ import { Search,Message } from "@element-plus/icons-vue";
 import { getToken } from "utils/auth";
 import {getNotice,confirmNotice} from "../apis/notification.js"
 
+
 const drawer = ref(false);
 
+
+// const noticeList = [
+// 	{
+// 		notice:"111",
+// 		content:"111"
+// 	},
+// 	{
+// 		notice:"111",
+// 		content:"111"
+// 	},
+// 	{
+// 		notice:"111",
+// 		content:"111"
+// 	}
+// ]
 
 
 // let windowHeight = document.documentElement.clientHeight || document.bodyclientHeight;
@@ -148,6 +170,10 @@ console.log("Instance为：", Instance);
 console.log("全局变量中的Userid为：", globalProperties.$userid);
 globalProperties.$userid = userid;
 console.log("修改后全局变量中的Userid为：", globalProperties.$userid);
+const forceUpdate = Instance.ctx.$forceUpdate;
+
+
+
 
 const count = ref(0);
 const query = reactive({
@@ -172,23 +198,52 @@ const post_notice = {
 const noticeList = ref([]);
 const depositList = ref([]);
 
-const Confirm_Notice_yes = (row) => {
+// function delete_a_notice(){
+// 	globalProperties.$noticeNum = globalProperties.$noticeNum - 1;
+// 	console.log(noticeNum);
+// 	// reFresh();
+// 	forceUpdate();
+// 	// this.$router.go(0);
+// }
+
+const Confirm_Notice_yes = (index, row) => {
+	
+	// deleteRow(index);
+	console.log(index);
 	const post_confirm = {
 		noticeid:row.noticeid,
 		choice:"1"
 	};
+	this.tableData.splice(index, 1);
 	confirmNotice(post_confirm)
 	  .then((res) => {
 	    if (res.code == 0) {
+			globalProperties.$noticeNum = globalProperties.$noticeNum - 1;
+			forceUpdate();
 	      alert("您已确认该消息");
 	    }
 	  })
 	  .catch((err) => {
 	    console.log(err);
 	  });
+	  
+	  // getNotice(post_notice)
+	  //   .then((res) => {
+	  //     if (res.code == 0) {
+	  //       noticeList.value = res.data;
+			// globalProperties.$noticeNum = noticeList._rawValue.length;
+			// forceUpdate();
+	  // 		console.log(res.data[0].type);
+	  //     }
+	  //   })
+	  //   .catch((err) => {
+	  //     console.log(err);
+	  //   });
 }
 
-const Confirm_Notice_no = (row) => {
+const Confirm_Notice_no = (index, row) => {
+	// deleteRow(index);
+	
 	const post_confirm = {
 		noticeid:row.noticeid,
 		choice:"0"
@@ -201,7 +256,31 @@ const Confirm_Notice_no = (row) => {
 	  })
 	  .catch((err) => {
 	    console.log(err);
-	  });	
+	  });
+	  this.tableData.splice(index, 1);
+	  globalProperties.$noticeNum = globalProperties.$noticeNum - 1;
+	  forceUpdate();
+	  
+	  // const deleteRow = (index: number) => {
+	  //   tableData.value.splice(index, 1)
+	  // };
+
+	
+	
+	// getNotice(post_notice)
+	//   .then((res) => {
+	//     if (res.code == 0) {
+	//       noticeList.value = res.data;
+	// 		console.log(res.data[0].type);
+	// 		globalProperties.$noticeNum = noticeList._rawValue.length; 
+	// 		console.log("##",globalProperties.$noticeNum);
+	// 	  forceUpdate();
+			
+	//     }
+	//   })
+	//   .catch((err) => {
+	//     console.log(err);
+	//   });
 }
 
 
@@ -225,6 +304,12 @@ const getList = () => {
     .then((res) => {
       if (res.code == 0) {
         noticeList.value = res.data;
+		globalProperties.$noticeNum = noticeList._rawValue.length;
+		console.log("noticeList",noticeList._rawValue.length);
+		console.log(res.data[0].type);
+		console.log("noticenum",globalProperties.$noticeNum);
+		console.log("##",globalProperties.$noticeNum);
+			forceUpdate();
       }
     })
     .catch((err) => {
