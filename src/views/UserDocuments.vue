@@ -207,14 +207,14 @@ const depositList = ref([]);
 // }
 
 const Confirm_Notice_yes = (index, row) => {
-	
+	console.log("执行到这里了");
 	// deleteRow(index);
 	console.log(index);
 	const post_confirm = {
 		noticeid:row.noticeid,
 		choice:"1"
 	};
-	this.tableData.splice(index, 1);
+	// this.tableData.splice(index, 1);
 	confirmNotice(post_confirm)
 	  .then((res) => {
 	    if (res.code == 0) {
@@ -257,7 +257,7 @@ const Confirm_Notice_no = (index, row) => {
 	  .catch((err) => {
 	    console.log(err);
 	  });
-	  this.tableData.splice(index, 1);
+	  // this.tableData.splice(index, 1);
 	  globalProperties.$noticeNum = globalProperties.$noticeNum - 1;
 	  forceUpdate();
 	  

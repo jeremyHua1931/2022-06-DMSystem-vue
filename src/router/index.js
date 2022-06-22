@@ -7,7 +7,7 @@ const routes = [
     path: "/",
     name: "index",
     component: () => import("views/layout.vue"),
-    redirect: "/UserDocuments",
+    redirect: "/fileShow",
     children: [
 
 		{

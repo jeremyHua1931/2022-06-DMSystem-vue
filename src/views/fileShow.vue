@@ -73,9 +73,15 @@
 </template>
 
 <script setup>
-import {ref, reactive, onBeforeMount, computed, watch} from "vue";
+import {ref, reactive, onBeforeMount, computed, watch,getCurrentInstance} from "vue";
 import {useRouter} from "vue-router";
 import {getFiles} from "../apis/file.js";
+
+var localurl = window.location.href;
+var userid = localurl.split("?userid=")[1];
+const Instance = getCurrentInstance();
+const { appContext : { config: { globalProperties } } } = getCurrentInstance();
+globalProperties.$userid = userid;
 
 var FormerPath="";
 var ThisPath='/';
@@ -89,6 +95,8 @@ const libraryid = "default";
 const router = useRouter();
 const formLabelWidth = '140px';
 const identity = '/person';
+
+console.log("userid###为",globalProperties.$userid);
 
 var FileList = ref([]);
 
@@ -201,7 +209,7 @@ const JumpTo = function(RelPath){
 const getUser = function(){
 	var MyUrl= window.location.search;
 	console.log(MyUrl)
-	userid =new URLSearchParams(MyUrl).get('userid')
+	userid =globalProperties.$userid;
 };
 const ReturnTo = function(){
 	if(ThisPath!='/')
