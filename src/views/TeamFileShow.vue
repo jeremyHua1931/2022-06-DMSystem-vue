@@ -27,9 +27,9 @@
 		</el-table-column>
 		<el-table-column label="操作" fixed="right" width="280">
   		<template #default="scope">
-			<el-button size="small" @click='ShareTo(scope.row.pdfid)'>分享</el-button>
+			<el-button size="small" @click='ShareTo(scope.row.fileid)'>分享</el-button>
 			<el-divider direction="vertical"></el-divider>
-			<el-button size="small" @click="PatchTo(scope.row.pdfid)">批注</el-button>
+			<el-button size="small" @click="PatchTo(scope.row.fileid)">批注</el-button>
 			<el-divider direction="vertical"></el-divider>
 			<el-button size="small" @click="EditFormVisible = true;EditTo(scope.row.Title,scope.row.ObjectType,scope.row.fileid)">编辑</el-button>
 			<el-divider direction="vertical"></el-divider>
@@ -101,6 +101,10 @@
 		        <input type="button" value="提交" @click="uploadFile()" id="upload"> </p>
 				<p> 请上传PDF文件,文件体积小于100M</p>
 	</el-dialog>
+	<el-dialog title="分享" v-model="ShareVisible">
+		<p>直接分享链接 : {{ShareUrl}}</p><br>
+		<p>登录分享链接 : {{ShareUrl2}}</p>
+	</el-dialog>
 </template>
 
 <script setup>
@@ -137,6 +141,15 @@ const identity = '/team';
 var FileList = ref([]);
 var ShareUrl = ref("");
 
+
+const ShareTo = function(pdfid){
+	ShareVisible.value=true;
+	ShareUrl.value = baseURL + "&&pdfid = " + pdfid + "?ownerid=" + Paths.UserId +"&&type=normal";
+	ShareUrl2.value = baseURL + "&&pdfid = " + pdfid + "?ownerid=" + Paths.UserId +"&&type=indirecShare";
+}
+const PatchTo = function(pdfid){
+	window.location.href="/index.html?"+"pdfid="+pdfid+"&&ownerid="+Paths.UserId+"&&type=normal";
+}
 const getList = () => {
 	var query = {
 		  option: "list",
