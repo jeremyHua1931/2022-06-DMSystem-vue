@@ -102,7 +102,7 @@
 				<p> 请上传PDF文件,文件体积小于100M</p>
 	</el-dialog>
 	<el-dialog title="分享" v-model="ShareVisible">
-		<p>直接分享链接 : {{ShareUrl}}</p><br>
+		<p>直接分享链接 : {{ShareUrl}}</p>
 		<p>登录分享链接 : {{ShareUrl2}}</p>
 	</el-dialog>
 </template>
@@ -134,18 +134,19 @@ const EditFormVisible=ref(false);
 const MkdirFormVisible=ref(false);
 const UploadFormVisible=ref(false);
 const ShareVisible=ref(false);
-const libraryid = "0";
+const libraryid = "1";
 const router = useRouter();
 const formLabelWidth = '140px';
 const identity = '/team';
 var FileList = ref([]);
 var ShareUrl = ref("");
+var ShareUrl2 = ref("");
 
 
 const ShareTo = function(pdfid){
 	ShareVisible.value=true;
-	ShareUrl.value = baseURL + "&&pdfid = " + pdfid + "?ownerid=" + Paths.UserId +"&&type=normal";
-	ShareUrl2.value = baseURL + "&&pdfid = " + pdfid + "?ownerid=" + Paths.UserId +"&&type=indirecShare";
+	ShareUrl.value = "shareLinkTODO" + "&&pdfid = " + pdfid + "?ownerid=" + Paths.UserId +"&&type=normal";
+	ShareUrl2.value = "shareLinkTODO" + "&&pdfid = " + pdfid + "?ownerid=" + Paths.UserId +"&&type=indirecShare";
 }
 const PatchTo = function(pdfid){
 	window.location.href="/index.html?"+"pdfid="+pdfid+"&&ownerid="+Paths.UserId+"&&type=normal";
@@ -153,6 +154,7 @@ const PatchTo = function(pdfid){
 const getList = () => {
 	var query = {
 		  option: "list",
+      //TODO  here
 		  currentpath : Paths.PrePath+Paths.UserId+"/"+libraryid+Paths.ThisPath,
 		  userid: Paths.UserId,
 		  libraryid : libraryid,
@@ -260,6 +262,7 @@ const getUser = function(){
 	var MyUrl= window.location.search;
 	console.log(MyUrl)
 	Paths.UserId =new URLSearchParams(MyUrl).get('userid')
+  Paths.UserId="1"
 	//Paths.ThisPath="/person/"+Paths.UserId+"/"+libraryid;
 	//Paths.UserId = localStorage.getItem("userid");
 };
@@ -516,6 +519,7 @@ const uploadFile= function(){
   axios.post("http://192.168.43.180:8082/receivefile", formData)
       .then(function (response) {
         console.log(response);
+        getList();
 		alert(response.data.msg);
       })
 };
