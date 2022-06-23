@@ -13,7 +13,7 @@
       <el-table-column align="center" prop="member_permission" label="成员权限" width="" />
       <el-table-column align="center" key = "1" label="操作" fixed="right" width="180"
         ><template #default="scope">
-          <el-button v-if="scope.row.type==1" size="small" @click="modify(scope.row)">修改权限</el-button>
+          <el-button v-if="scope.row.type==1" size="small" @click="modify_per(scope.row)">修改权限</el-button>
 		<el-divider v-if="scope.row.type==1" direction="vertical"></el-divider>
 		<el-popconfirm
 		  v-if="scope.row.type==1"
@@ -35,16 +35,27 @@
 	  
 	  
     </el-table>
-    <el-pagination
-      v-model:currentPage="query.page"
-      :page-size="query.size"
-      layout="prev, pager, next, jumper"
-      :total="count"
-      @current-change="getList"
-      :hide-on-single-page="true"
-    >
-    </el-pagination>
   </div>
+  
+  <el-dialog v-model="dialogFormVisible" title="更改成员权限">
+      <el-form :model="p_form">
+        <el-form-item label="请选择更改权限方式" :label-width="formLabelWidth">
+         <el-select v-model="p_form.permisson" placeholder="请选择要修改权限的方式">
+                   <el-option label="设为管理员" value="管理员" />
+                   <el-option label="设为组员" value="组员" />
+                 </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取消</el-button>
+          <el-button type="primary" @click="handle_set_per()"
+            >确认</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
+  
 </template>
 
 <script setup>
@@ -53,7 +64,7 @@ import { useRouter } from "vue-router";
 import { Search } from "@element-plus/icons-vue";
 // import { getToken } from "utils/auth";
 // import { getDepositList, deleteDeposit } from "apis/good.js";
-import {getAllTeamers,deleteTeamer} from "apis/team.js"
+import {getAllTeamers,deleteTeamer,addAdminister} from "apis/team.js"
 import { ElMessage } from 'element-plus'
 
 
@@ -82,7 +93,22 @@ const open3 = () => {
   })
 }
 
+const open4 = () => {
+  ElMessage({
+    showClose: true,
+    message: 'Oops！修改权限失败',
+    type: 'error',
+  })
+}
 
+const formLabelWidth = '140px'
+const dialogFormVisible = ref(false);
+
+const p_form = reactive({
+	permisson:'管理员',
+})
+
+var targetid = "";
 
 
 const type = ref(0);
@@ -94,6 +120,36 @@ const query = reactive({
   userid: router.currentRoute.value.query["userid"]
 });
 const allTeamers = ref([]);
+
+
+const handle_set_per = () =>{
+	dialogFormVisible.value = false;
+	const post_set_per = {
+		teamid:router.currentRoute.value.query["teamid"],
+		userid: router.currentRoute.value.query["userid"],
+		targetid:targetid,
+		targetPermission:p_form.permisson,
+	};
+	
+	getAllTeamers(post_set_per)
+	  .then((res) => {
+	    if (res.code == 0) {
+	      open1();
+			
+	    }
+	  })
+	  .catch((err) => {
+	   open4();
+	  });
+	
+	
+	
+	
+	
+};
+
+
+
 const getList = () => {
   getAllTeamers(query)
     .then((res) => {
@@ -117,12 +173,9 @@ const getList = () => {
 // };
 
 
-const modify = (row) => {
-  // router.push({
-  //   path: "/depositRelease",
-  //   query: { isModify: true, id: row.id },
-  // });
-  alert("编辑成员权限");
+const modify_per = (row) => {
+	targetid = row.member_id;
+	dialogFormVisible.value = true;
 };
 
 const handleDelete = (index, row) => {
