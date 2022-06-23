@@ -25,20 +25,20 @@
 		<span style="margin-left: 10px  text-aligned=left" @dblclick="JumpTo(scope.row.Title)" show-overflow-tooltip="true" > {{scope.row.ModifyDate}} </span>
 		</template>
 		</el-table-column>
-		<el-table-column label="操作" fixed="right" width="280">
+		<el-table-column label="操作" fixed="right" align="center" width="280">
   		<template #default="scope">
-			<el-button size="small" @click='ShareTo(scope.row.fileid)'>分享</el-button>
-			<el-divider direction="vertical"></el-divider>
-			<el-button size="small" @click="PatchTo(scope.row.fileid)">批注</el-button>
-			<el-divider direction="vertical"></el-divider>
-			<el-button size="small" @click="EditFormVisible = true;EditTo(scope.row.Title,scope.row.ObjectType,scope.row.fileid)">编辑</el-button>
-			<el-divider direction="vertical"></el-divider>
+			<el-button size="small" @click='ShareTo(scope.row.fileid)' v-if="scope.row.fileid!='fix'" >分享</el-button>
+			<el-divider direction="vertical" v-if="scope.row.fileid!='fix'" ></el-divider>
+			<el-button size="small" @click="PatchTo(scope.row.fileid)" v-if="scope.row.fileid!='fix'" >批注</el-button>
+			<el-divider direction="vertical" v-if="scope.row.fileid!='fix'" ></el-divider>
+			<el-button size="small" @click="EditFormVisible = true;EditTo(scope.row.Title,scope.row.ObjectType,scope.row.fileid)" v-if="scope.row.fileid!='fix'" >编辑</el-button>
+			<el-divider direction="vertical" v-if="scope.row.fileid!='fix'" ></el-divider>
 			<el-popconfirm
 			  confirm-button-text="确认"
 			  cancel-button-text="取消"
 			  icon="el-icon-info"
 			  icon-color="red"
-			  title="确认删除该文件？"
+			  title="确认删除？"
 			  @confirm="DeleTo(scope.row.Title)">
 			  <template #reference>
 			    <el-button size="small" type="danger">删除</el-button>
@@ -80,51 +80,84 @@
 	      </span>
 	    </template>
 	</el-dialog>
-<!-- 	<el-dialog  title="上传文件" v-model="UploadFormVisible">
-	   <el-form :model="UploadForm">
-		  <el-form-item label="上传文件路径:" :label-width="formLabelWidth">
-		    <el-input v-model="UploadForm.source" :placeholder="Paths.ThisPath"/>
-		  </el-form-item>
-		  <el-form-item label="目标路径:" :label-width="formLabelWidth">
-		    <el-input v-model="UploadForm.destination" :placeholder="Paths.ThisPath"/>
-		  </el-form-item>
-	    </el-form>
-	    <template #footer>
-	      <span class="dialog-footer">
-	        <el-button @click="UploadFormVisible = false">取消</el-button>
-	        <el-button type="primary" @click="UploadFormVisible = false; ; UploadConfirm()">确认</el-button>
-	      </span>
-	    </template>
-	</el-dialog> -->
+
 	<el-dialog title="上传文件" v-model="UploadFormVisible">
 		<p> 选择文件:<input id="upload_file" type="file" name="files">
 		        <input type="button" value="提交" @click="uploadFile()" id="upload"> </p>
 				<p> 请上传PDF文件,文件体积小于100M</p>
 	</el-dialog>
 	<el-dialog title="分享" v-model="ShareVisible">
-		<p>直接分享链接 : {{ShareUrl}}</p>
-		<p>登录分享链接 : {{ShareUrl2}}</p>
+    <p>仅分享文件链接: {{ ShareUrl0 }} </p><br>
+    <p>直接分享链接 : {{ ShareUrl }}</p><br>
+    <p>登录分享链接 : {{ ShareUrl2 }}</p>
 	</el-dialog>
 </template>
 
 <script setup>
+import {ElMessage} from "element-plus";
+
+window.alert = function(msg, callback) {
+  var div = document.createElement("div");
+  div.innerHTML = "<style type=\"text/css\">"
+      + ".nbaMask { position: fixed; z-index: 1000; top: 0; right: 0; left: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); }                                                                                                                                                                       "
+      + ".nbaMaskTransparent { position: fixed; z-index: 1000; top: 0; right: 0; left: 0; bottom: 0; }                                                                                                                                                                                            "
+      + ".nbaDialog { position: fixed; z-index: 5000; width: 80%; max-width: 300px; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); background-color: #fff; text-align: center; border-radius: 8px; overflow: hidden; opacity: 1; color: white; }"
+      + ".nbaDialog .nbaDialogHd { padding: .2rem .27rem .08rem .27rem; }                                                                                                                                                                                                                         "
+      + ".nbaDialog .nbaDialogHd .nbaDialogTitle { font-size: 17px; font-weight: 400; }                                                                                                                                                                                                           "
+      + ".nbaDialog .nbaDialogBd { padding: 0 .27rem; font-size: 15px; line-height: 1.3; word-wrap: break-word; word-break: break-all; color: #000000; }                                                                                                                                          "
+      + ".nbaDialog .nbaDialogFt { position: relative; line-height: 48px; font-size: 17px; display: -webkit-box; display: -webkit-flex; display: flex; }                                                                                                                                          "
+      + ".nbaDialog .nbaDialogFt:after { content: \" \"; position: absolute; left: 0; top: 0; right: 0; height: 1px; border-top: 1px solid #e6e6e6; color: #e6e6e6; -webkit-transform-origin: 0 0; transform-origin: 0 0; -webkit-transform: scaleY(0.5); transform: scaleY(0.5); }               "
+      + ".nbaDialog .nbaDialogBtn { display: block; -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; color: #09BB07; text-decoration: none; -webkit-tap-highlight-color: transparent; position: relative; margin-bottom: 0; }                                                                       "
+      + ".nbaDialog .nbaDialogBtn:after { content: \" \"; position: absolute; left: 0; top: 0; width: 1px; bottom: 0; border-left: 1px solid #e6e6e6; color: #e6e6e6; -webkit-transform-origin: 0 0; transform-origin: 0 0; -webkit-transform: scaleX(0.5); transform: scaleX(0.5); }             "
+      + ".nbaDialog a { text-decoration: none; -webkit-tap-highlight-color: transparent; }"
+      + "</style>"
+      + "<div id=\"dialogs2\" style=\"display: none\">"
+      + "<div class=\"nbaMask\"></div>"
+      + "<div class=\"nbaDialog\">"
+      + "	<div class=\"nbaDialogHd\">"
+      + "		<strong class=\"nbaDialogTitle\"></strong>"
+      + "	</div>"
+      + "	<div class=\"nbaDialogBd\" id=\"dialog_msg2\">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>"
+      + "	<div class=\"nbaDialogHd\">"
+      + "		<strong class=\"nbaDialogTitle\"></strong>"
+      + "	</div>"
+      + "	<div class=\"nbaDialogFt\">"
+      + "		<a href=\"javascript:;\" class=\"nbaDialogBtn nbaDialogBtnPrimary\" id=\"dialog_ok2\">确定</a>"
+      + "	</div></div></div>";
+  document.body.appendChild(div);
+
+  var dialogs2 = document.getElementById("dialogs2");
+  dialogs2.style.display = 'block';
+
+  var dialog_msg2 = document.getElementById("dialog_msg2");
+  dialog_msg2.innerHTML = msg;
+
+  // var dialog_cancel = document.getElementById("dialog_cancel");
+  // dialog_cancel.onclick = function() {
+  // dialogs2.style.display = 'none';
+  // };
+  var dialog_ok2 = document.getElementById("dialog_ok2");
+  dialog_ok2.onclick = function() {
+    dialogs2.style.display = 'none';
+    callback();
+  };
+};
 import {ref, reactive, onBeforeMount, computed, watch} from "vue";
 import {useRouter,useRoute} from "vue-router";
 import {getFiles} from "../apis/file.js";
 import baseURL from "../utils/request.js";
 import axios from "axios";
 
-/* var localurl = window.location.href;
-var userid = localurl.split("?userid=")[1];
-const Instance = getCurrentInstance();
-const { appContext : { config: { globalProperties } } } = getCurrentInstance();
-globalProperties.$userid = userid; */
+//
+// const userid = localStorage.getItem("userid");
+// console.log("TeamShow", userid)
 
-const Paths = reactive({
+
+var  Paths = reactive({
 	FormerPath:"",
 	ThisPath:"/",
 	JumpPath:"/",
-	UserId:'1',
+	UserId:localStorage.getItem("teamid"),
 	SourcePath:'',
 	TimeStap:'',
 	PlaceHolder:'',
@@ -134,22 +167,41 @@ const EditFormVisible=ref(false);
 const MkdirFormVisible=ref(false);
 const UploadFormVisible=ref(false);
 const ShareVisible=ref(false);
-const libraryid = "1";
+var   libraryid =localStorage.getItem("libid");
 const router = useRouter();
 const formLabelWidth = '140px';
 const identity = '/team';
 var FileList = ref([]);
+var ShareUrl0 = ref("");
 var ShareUrl = ref("");
 var ShareUrl2 = ref("");
 
 
+
+
 const ShareTo = function(pdfid){
-	ShareVisible.value=true;
-	ShareUrl.value = "shareLinkTODO" + "&&pdfid = " + pdfid + "?ownerid=" + Paths.UserId +"&&type=normal";
-	ShareUrl2.value = "shareLinkTODO" + "&&pdfid = " + pdfid + "?ownerid=" + Paths.UserId +"&&type=indirecShare";
+  if (pdfid == "fix") {
+    open2();
+  } else {
+    ShareVisible.value = true;
+    //http://192.168.238.1:8082/pdf/showpdf?fileid=1
+    ShareUrl0.value = "http://192.168.238.1:8082/pdf/showpdf?fileid=" + pdfid;
+    ShareUrl.value = "http://192.168.238.1:8082/index.html?pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=directshare";
+    ShareUrl2.value = "http://192.168.238.1:8082/index.html?pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=indirectShare";
+  }
+}
+const open7 = () => {
+  ElMessage.error('文件夹不可被批注!')
 }
 const PatchTo = function(pdfid){
-	window.location.href="/index.html?"+"pdfid="+pdfid+"&&ownerid="+Paths.UserId+"&&type=normal";
+  if (pdfid == "fix") {
+    open7();
+  } else {
+    //http://192.168.238.1:8082/index.html?pdfid=1&&ownerid=1&&type=normal
+
+    var urltmp = "http://192.168.238.1:8082/index.html?" + "pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=normal";
+    window.open(urltmp, "文件批注页");
+  }
 }
 const getList = () => {
 	var query = {
@@ -206,6 +258,14 @@ const JumpTo = function(RelPath){
 	    }
 	);
 };
+const open6 = () => {
+  ElMessage({
+    showClose: true,
+    message: '已是根目录无法返回',
+    type: 'warning',
+  })
+}
+
 const ReturnTo = function(){
 	if(Paths.ThisPath!='/')
 	{
@@ -253,19 +313,19 @@ const ReturnTo = function(){
 	else
 	{
 		Paths.FormerPath=''
-		router.push({
-			path:"./TeamDocuments"
-		})
+    open6();
 	}
 };
-const getUser = function(){
-	var MyUrl= window.location.search;
-	console.log(MyUrl)
-	Paths.UserId =new URLSearchParams(MyUrl).get('userid')
-  Paths.UserId="1"
-	//Paths.ThisPath="/person/"+Paths.UserId+"/"+libraryid;
-	//Paths.UserId = localStorage.getItem("userid");
-};
+// const getUser = function(){
+// 	var MyUrl= window.location.search;
+// 	console.log(MyUrl)
+//   Paths.UserId=teamid
+//   console.log("开始打印参数")
+//   console.log(teamidGet)
+//   console.log(libidGet)
+//
+//
+// };
 
 const DeleTo = function(RelPath,pdfid){
 	var query = {
@@ -278,6 +338,7 @@ const DeleTo = function(RelPath,pdfid){
 		  console.log(query);
 	      console.log(res.data);
 	      console.log(res.msg);
+        getList()
 	    }
 		else if(res.code == 500){
 			alert("操作失败")
@@ -350,6 +411,7 @@ const RenameTo = function(){
 		  console.log(query);
 	      console.log(res.data);
 	      console.log(res.msg);
+        getList();
 	    }
 		else if(res.code == 500){
 			alert("操作失败")
@@ -398,6 +460,7 @@ const MoveTo = function(){
 		  console.log(query);
 	      console.log(res.data);
 	      console.log(res.msg);
+        getList();
 	    }
 		else if(res.code == 500){
 			alert("操作失败")
@@ -427,6 +490,7 @@ const CopyTo = function(){
 		  console.log(query);
 	      console.log(res.data);
 	      console.log(res.msg);
+        getList();
 	    }
 		else if(res.code == 500){
 			alert("操作失败")
@@ -516,7 +580,7 @@ const uploadFile= function(){
   obj.info = "附属信息";//用户名
   let data = JSON.stringify(obj);
   formData.append("path",Paths.PrePath+Paths.UserId+"/"+libraryid+Paths.ThisPath);
-  axios.post("http://10.131.169.178:8082/receivefile", formData)
+  axios.post("http://192.168.238.1:8082/receivefile", formData)
       .then(function (response) {
         console.log(response);
         getList();
@@ -525,8 +589,7 @@ const uploadFile= function(){
 };
 
 onBeforeMount(() => {
-	getUser();
-	getList();
+  getList();
 }); 
 </script>
 
