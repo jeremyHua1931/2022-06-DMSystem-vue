@@ -57,6 +57,15 @@
 		  </el-menu-item>
 
 
+
+          <el-menu-item index="personalInfo" route="/personalInfo">
+            <el-icon>
+              <odometer/>
+            </el-icon>
+            <template #title>个人信息</template>
+          </el-menu-item>
+
+
           <!-- <el-menu-item index="dashboard" route="/dashboard">
             <el-icon><odometer /></el-icon>
             <template #title>仪表盘</template>

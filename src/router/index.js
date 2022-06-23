@@ -52,6 +52,14 @@ const routes = [
 		  },
 		},
 		{
+			path: "/personalInfo",
+			name: "personalInfo",
+			component: () => import("views/personalInfo.vue"),
+			meta: {
+				title: "个人信息",
+			},
+		},
+		{
 		  path: "/TeamDocuments",
 		  name: "TeamDocuments",
 		  component: () => import("views/TeamDocuments.vue"),
