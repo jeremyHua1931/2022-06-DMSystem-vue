@@ -38,7 +38,7 @@
 			  cancel-button-text="取消"
 			  icon="el-icon-info"
 			  icon-color="red"
-			  title="确认删除该文件？"
+			  title="确认删除？"
 			  @confirm="DeleTo(scope.row.Title)">
 			  <template #reference>
 			    <el-button size="small" type="danger">删除</el-button>
@@ -126,6 +126,7 @@ var FileList = ref([]);
 var ShareUrl = ref("");
 var ShareUrl2 = ref("");
 var TimeStamp = ref("");
+localStorage.setItem("userid","1")
 
 const ShareTo = function(pdfid){
 	ShareVisible.value=true;
@@ -240,8 +241,6 @@ const ReturnTo = function(){
 const getUser = function(){
 
 	Paths.UserId = localStorage.getItem("userid");
-	//Paths.ThisPath="/person/"+Paths.UserId+"/"+libraryid;
-	//Paths.UserId = localStorage.getItem("userid");
 };
 
 const DeleTo = function(RelPath,pdfid){
@@ -255,6 +254,7 @@ const DeleTo = function(RelPath,pdfid){
 		  console.log(query);
 	      console.log(res.data);
 	      console.log(res.msg);
+        getList();
 	    }
 		else if(res.code == 500){
 			alert("操作失败")
@@ -264,7 +264,7 @@ const DeleTo = function(RelPath,pdfid){
 	    console.log(err);
 	    }
 	);
-	getList();
+
 };
 
 
@@ -493,14 +493,19 @@ const uploadFile= function(){
   obj.info = "附属信息";//用户名
   let data = JSON.stringify(obj);
   formData.append("path",Paths.PrePath+Paths.UserId+"/"+libraryid+Paths.ThisPath);
-  axios.post("http://10.131.169.178:8082/receivefile", formData)
+  axios.post("http://192.168.238.1:8082/receivefile", formData)
       .then(function (response) {
         console.log(response);
+        getList();
 		alert(response.data.msg);
       })
+  getList()
 };
 
 onBeforeMount(() => {
+  console.log("开始设置userid")
+  localStorage.setItem("userid","1")
+  console.log("开始打印userid  ", localStorage.getItem("userid"))
 	getUser();
 	getList();
 }); 

@@ -162,6 +162,7 @@ const drawer = ref(false);
 
 
 var localurl = window.location.href;
+localStorage.setItem("userid","1")
 var userid = localurl.split("?userid=")[1];
 console.log("解析的userid为",userid);
 const Instance = getCurrentInstance();
@@ -349,7 +350,10 @@ const handleDelete = (index, invalid, list) => {
 };
 
 onBeforeMount(() => {
+  console.log("开始执行")
+  localStorage.setItem("userid","1")
   getList();
+
   
 });
 

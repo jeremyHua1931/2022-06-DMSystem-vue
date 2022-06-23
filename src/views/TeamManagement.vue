@@ -85,7 +85,7 @@ const open3 = () => {
 
 
 
-const type = ref(0);
+var type = ref(0);
 const router = useRouter();
 console.log("teamid为：",router.currentRoute.value)
 const count = ref(0);

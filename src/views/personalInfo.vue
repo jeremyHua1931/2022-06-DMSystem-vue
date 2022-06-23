@@ -265,7 +265,7 @@ const confirm2 = () =>{
 const formLabelWidth = '140px';
 
 
-      const dataForm = reactive({
+      var dataForm = reactive({
         nickName: '请求中...',
         phone: '请求中...',
         email: '请求中...',
