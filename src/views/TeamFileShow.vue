@@ -94,6 +94,11 @@
 </template>
 
 <script setup>
+var test=localStorage.getItem("userid")
+if(test==null){
+  window.location.href = "http://192.168.238.1:8082/login"
+}
+
 import {ElMessage} from "element-plus";
 
 window.alert = function(msg, callback) {

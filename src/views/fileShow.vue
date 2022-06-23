@@ -162,6 +162,11 @@ globalProperties.$userid = userid; */
 // localStorage.setItem("libid", "1")
 // console.log("默认初始化", localStorage.getItem("userid"))
 
+var test=localStorage.getItem("userid")
+if(test==null){
+  window.location.href = "http://192.168.238.1:8082/login"
+}
+
 
 const Paths = reactive({
   FormerPath: "",
