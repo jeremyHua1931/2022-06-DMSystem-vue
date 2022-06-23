@@ -6,6 +6,9 @@
     <div class="toolbar-right">
       <el-button @click="MkdirFormVisible = true" type="primary" plain>创建文件夹</el-button>
       <el-button @click="UploadFormVisible = true" type="primary" plain>上传</el-button>
+       <el-badge :value="globalProperties.$noticeNum" class="item">
+      			     <el-button :key="Math.random()" :icon="Message" type="primary" @click="drawer = true" v-model.sync="noticeNum">未读消息</el-button>
+      			   </el-badge>
     </div>
   </div>
   <el-table :data="FileList" border style="width: 100%" highlight-current-row="true">
@@ -95,6 +98,56 @@
     <p>直接分享链接 : {{ ShareUrl }}</p><br>
     <p>登录分享链接 : {{ ShareUrl2 }}</p>
   </el-dialog>
+
+  <el-drawer
+      v-model="drawer"
+      title="未读消息"
+      :direction="rtl"
+      :before-close="handleClose"
+  >
+    <!-- <span>Hi, there!</span> -->
+    <div id="table">
+      <el-table :data="noticeList" border style="width: 100%" >
+
+        <el-table-column type="expand">
+          <template #default="props">
+            <div m="4">
+              <p m="t-0 b-2" style="width: 90%;height: 60px;display: block;line-height: 30px;">{{ props.row.content}}</p>
+            </div>
+          </template>
+        </el-table-column>
+
+        <el-table-column  prop="notice" align="center" label="消息" width="" ></el-table-column>
+        <!-- <el-table-column align="center" label="操作1" fixed="right" width="75"><template #default="scope">
+             <el-button size="small" @click="Confirm_Notice_yes(scope.row)">接受</el-button>
+           </template>
+         </el-table-column> -->
+        <el-table-column align="center" label="操作" fixed="right" width="120"><template #default="scope">
+          <el-button v-if="scope.row.type==1" size="small" @click="Confirm_Notice_yes(scope.$index,scope.row)">接受</el-button>
+          <el-divider v-if="scope.row.type==1" style="margin: 8px 0;background: 0 0;border-top: 1px dashed #e8eaec;"></el-divider>
+          <el-popconfirm
+              v-if="scope.row.type==1"
+              confirm-button-text="确认"
+              cancel-button-text="取消"
+              icon="el-icon-info"
+              icon-color="red"
+              title="确认拒绝该消息？"
+              @confirm="Confirm_Notice_no(scope.$index,scope.row)"
+          >
+            <template #reference>
+              <el-button v-if="scope.row.type==1" size="small" type="danger">拒绝</el-button>
+
+            </template>
+          </el-popconfirm>
+          <el-button line v-if="scope.row.type==0" size="small" type="primary" @click="Confirm_Notice_yes(scope.$index,scope.row)">已读</el-button>
+        </template>
+        </el-table-column>
+      </el-table>
+    </div>
+  </el-drawer>
+
+
+
 </template>
 
 <script setup>
@@ -144,12 +197,96 @@ window.alert = function (msg, callback) {
     callback();
   };
 };
-import {ref, reactive, onBeforeMount, computed, watch} from "vue";
+import {ref, reactive, onBeforeMount, computed, watch ,getCurrentInstance} from "vue";
 import {useRouter, useRoute} from "vue-router";
 import {getFiles} from "../apis/file.js";
 import {baseURL} from "../utils/request.js";
 import axios from "axios";
 import {ElMessage} from 'element-plus';
+import {getNotice,confirmNotice} from "../apis/notification.js"
+
+
+
+//系统消息通知
+//确认
+const open10 = () => {
+  ElMessage({
+    showClose: true,
+    message: '您已确认该消息',
+  })
+}
+//拒绝
+const open11 = () => {
+  ElMessage({
+    showClose: true,
+    message: '您已拒绝该消息',
+    type: 'warning',
+  })
+}
+const Instance = getCurrentInstance();
+const { appContext : { config: { globalProperties } } } = getCurrentInstance();
+const forceUpdate = Instance.ctx.$forceUpdate;
+const drawer = ref(false);
+const noticeList = ref([]);
+const post_notice = {
+  userid:localStorage.getItem("userid"),
+}
+
+const Confirm_Notice_yes = (index, row) => {
+  noticeList.value.splice(index, 1);
+  console.log("执行到这里了");
+  // deleteRow(index);
+  console.log(index);
+  const post_confirm = {
+    noticeid:row.noticeid,
+    choice:"1"
+  };
+  // this.tableData.splice(index, 1);
+  confirmNotice(post_confirm)
+      .then((res) => {
+        if (res.code == 0) {
+          globalProperties.$noticeNum = globalProperties.$noticeNum - 1;
+          forceUpdate();
+          // alert("您已确认该消息");
+          open10();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+}
+
+const Confirm_Notice_no = (index, row) => {
+  // deleteRow(index);
+  noticeList.value.splice(index, 1);
+  const post_confirm = {
+    noticeid:row.noticeid,
+    choice:"0"
+  };
+  confirmNotice(post_confirm)
+      .then((res) => {
+        if (res.code == 0) {
+          // alert("您已拒绝该消息");
+          open11();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  // this.tableData.splice(index, 1);
+  globalProperties.$noticeNum = globalProperties.$noticeNum - 1;
+  forceUpdate();
+
+}
+
+
+
+
+
+
+
+
 
 /* var localurl = window.location.href;
 var userid = localurl.split("?userid=")[1];
@@ -581,6 +718,21 @@ const uploadFile = function () {
 
 onBeforeMount(() => {
   getList();
+  getNotice(post_notice)
+      .then((res) => {
+        if (res.code == 0) {
+          noticeList.value = res.data;
+          globalProperties.$noticeNum = noticeList._rawValue.length;
+          console.log("noticeList",noticeList._rawValue.length);
+          console.log(res.data[0].type);
+          console.log("noticenum",globalProperties.$noticeNum);
+          console.log("##",globalProperties.$noticeNum);
+          forceUpdate();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 });
 </script>
 
@@ -613,5 +765,11 @@ onBeforeMount(() => {
 
 .dialog-footer button:first-child {
   margin-right: 10px;
+}
+
+.item {
+  margin-top: 0px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 </style>

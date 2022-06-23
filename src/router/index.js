@@ -35,14 +35,6 @@ const routes = [
 			},
 		},
 		{
-		  path: "/UserDocuments",
-		  name: "UserDocuments",
-		  component: () => import("views/UserDocuments.vue"),
-		  meta: {
-		    title: "用户文献库",
-		  },
-		},
-		{
 			path: "/register",
 			name: "register",
 			component: () => import("views/register/index.vue"),
