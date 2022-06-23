@@ -199,7 +199,8 @@ const userInfo = ref({
 //   router.go();
 // };
 const handleRefresh = () => {
-  router.go();
+  //sadasd
+  router.push("/login");
 };
 
 // onMounted(() => {
