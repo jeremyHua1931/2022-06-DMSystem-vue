@@ -30,40 +30,41 @@
           class="el-menu-vertical-demo"
         > -->
 
-          <el-menu-item index="userdocuments" route="/fileShow">
+          <el-menu-item index="personal_module" route="/fileShow">
             <el-icon>
               <Tickets/>
             </el-icon>
-            <template #title>层级页面展示</template>
+            <template #title>个人模块</template>
           </el-menu-item>
 		  
-          <el-sub-menu index="team_management">
+		  
+		  <el-menu-item index="team_module" route="/TeamList">
+		   <el-icon>
+		     <user/>
+		   </el-icon>
+		    <template #title>团队模块</template>
+		  </el-menu-item>
+		  
+          <!-- <el-sub-menu index="team_management">
             <template #title>
               <el-icon>
                 <user/>
               </el-icon>
               <span>团队模块</span>
             </template>
-            <el-menu-item index="teamdocuments" route="/TeamDocuments">团队文献库</el-menu-item>
-            <el-menu-item index="teamlist" route="/TeamList">团队列表</el-menu-item>
+            <el-menu-item index="teamdocuments" route="/TeamDocuments">创建团队</el-menu-item>
+            <el-menu-item index="teamlist" route="/TeamList"><el-icon>
+                <user/>
+              </el-icon>团队列表</el-menu-item>
 
-          </el-sub-menu>
+          </el-sub-menu> -->
 
-		  <el-menu-item index="userdocuments" route="/UserDocuments">
+		  <el-menu-item index="personalInfo" route="/personalInfo">
 		    <el-icon>
 		      <odometer/>
 		    </el-icon>
-		    <template #title>个人模块</template>
+		    <template #title>个人信息</template>
 		  </el-menu-item>
-
-
-
-          <el-menu-item index="personalInfo" route="/personalInfo">
-            <el-icon>
-              <odometer/>
-            </el-icon>
-            <template #title>个人信息</template>
-          </el-menu-item>
 
 
           <!-- <el-menu-item index="dashboard" route="/dashboard">
@@ -208,7 +209,6 @@ const userInfo = ref({
 //   router.go();
 // };
 const handleRefresh = () => {
-  //sadasd
   router.go();
 };
 

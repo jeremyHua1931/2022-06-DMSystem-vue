@@ -12,3 +12,18 @@ export const makelib = (data) => {
     data,
   });
 };
+
+
+
+/**
+ * @description: 获取团队所有文献库
+ * @param {*} data
+ * @return {*}
+ */
+export const getlib = (data) => {
+  return service({
+    url: "/team/lib/getlib",
+    method: "post",
+    data,
+  });
+};

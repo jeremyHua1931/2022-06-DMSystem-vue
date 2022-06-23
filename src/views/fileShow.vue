@@ -238,9 +238,8 @@ const ReturnTo = function(){
 	}
 };
 const getUser = function(){
-	var MyUrl= window.location.search;
-	console.log(MyUrl)
-	Paths.UserId =new URLSearchParams(MyUrl).get('userid')
+
+	Paths.UserId = localStorage.getItem("userid");
 	//Paths.ThisPath="/person/"+Paths.UserId+"/"+libraryid;
 	//Paths.UserId = localStorage.getItem("userid");
 };
@@ -494,7 +493,7 @@ const uploadFile= function(){
   obj.info = "附属信息";//用户名
   let data = JSON.stringify(obj);
   formData.append("path",Paths.PrePath+Paths.UserId+"/"+libraryid+Paths.ThisPath);
-  axios.post("http://192.168.43.180:8082/receivefile", formData)
+  axios.post("http://10.131.169.178:8082/receivefile", formData)
       .then(function (response) {
         console.log(response);
 		alert(response.data.msg);

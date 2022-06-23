@@ -6,16 +6,17 @@
         <template #default="scope">
           <el-avatar :src="scope.row.image"></el-avatar></template
       ></el-table-column> -->
-      <el-table-column prop="team_id" label="团队编号" width="" />
-      <el-table-column prop="team_name" label="团队名称" width="" />
-	  <el-table-column prop="member_id" label="团队成员ID" width="" />
-      <el-table-column prop="member_name" label="团队成员昵称" width="" />
-      <el-table-column prop="member_permission" label="成员权限" width="" />
-      <el-table-column v-if="type===1" key = "1" label="操作" fixed="right" width="180"
+      <el-table-column align="center" prop="team_id" label="团队编号" width="" />
+      <el-table-column align="center" prop="team_name" label="团队名称" width="" />
+	  <el-table-column align="center" prop="member_id" label="团队成员ID" width="" />
+      <el-table-column align="center" prop="member_name" label="团队成员昵称" width="" />
+      <el-table-column align="center" prop="member_permission" label="成员权限" width="" />
+      <el-table-column align="center" key = "1" label="操作" fixed="right" width="180"
         ><template #default="scope">
-          <el-button size="small" @click="modify(scope.row)">编辑</el-button>
-		<el-divider direction="vertical"></el-divider>
+          <el-button v-if="scope.row.type==1" size="small" @click="modify(scope.row)">修改权限</el-button>
+		<el-divider v-if="scope.row.type==1" direction="vertical"></el-divider>
 		<el-popconfirm
+		  v-if="scope.row.type==1"
 		  confirm-button-text="确认"
 		  cancel-button-text="取消"
 		  icon="el-icon-info"
@@ -24,9 +25,10 @@
 		  @confirm="handleDelete(scope.$index, scope.row)"
 		>
 		  <template #reference>
-		    <el-button size="small" type="danger">删除</el-button>
+		    <el-button v-if="scope.row.type==1" size="small" type="danger">删除</el-button>
 		  </template>
 		</el-popconfirm>
+		<p v-if="scope.row.type==0">暂无权限，无法操作</p>
         </template>
       </el-table-column>
 	  
@@ -51,9 +53,39 @@ import { useRouter } from "vue-router";
 import { Search } from "@element-plus/icons-vue";
 // import { getToken } from "utils/auth";
 // import { getDepositList, deleteDeposit } from "apis/good.js";
-import {getAllTeamers} from "apis/team.js"
+import {getAllTeamers,deleteTeamer} from "apis/team.js"
+import { ElMessage } from 'element-plus'
 
-var type;
+
+//消息通知
+const open1 = () => {
+  ElMessage({
+    showClose: true,
+    message: '修改权限成功！',
+    type: 'success',
+  })
+}
+
+const open2 = () => {
+  ElMessage({
+    showClose: true,
+    message: '删除成功！',
+    type: 'success',
+  })
+}
+
+const open3 = () => {
+  ElMessage({
+    showClose: true,
+    message: 'Oops！删除失败',
+    type: 'error',
+  })
+}
+
+
+
+
+const type = ref(0);
 const router = useRouter();
 console.log("teamid为：",router.currentRoute.value)
 const count = ref(0);
@@ -90,21 +122,29 @@ const modify = (row) => {
   //   path: "/depositRelease",
   //   query: { isModify: true, id: row.id },
   // });
-  alert("进入更改团队成员信息表单");
+  alert("编辑成员权限");
 };
 
-const handleDelete = (index, invalid, list) => {
-  // deleteDeposit({ id: depositList.value[index].id })
-  //   .then((res) => {
-  //     if (res.code == 200) {
-  //       depositList.value.splice(index, 1);
-  //       ElMessage.success(res.msg);
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-  alert("执行了删除函数");
+const handleDelete = (index, row) => {
+	
+	const post_delete_user = {
+		teamid:row.team_id,
+		userid:localStorage.getItem("userid"),
+		targetid:row.member_id,
+	};
+	
+	console.log("&&&&",post_delete_user)
+	
+	deleteTeamer(post_delete_user)
+	  .then((res) => {
+	    if (res.code == 0) {
+		  allTeamers.value.splice(index, 1);
+	      open2();
+	    }
+	  })
+	  .catch((err) => {
+	  open3();
+	  });
 };
 
 onBeforeMount(() => {

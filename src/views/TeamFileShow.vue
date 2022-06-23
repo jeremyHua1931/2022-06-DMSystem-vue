@@ -516,7 +516,7 @@ const uploadFile= function(){
   obj.info = "附属信息";//用户名
   let data = JSON.stringify(obj);
   formData.append("path",Paths.PrePath+Paths.UserId+"/"+libraryid+Paths.ThisPath);
-  axios.post("http://192.168.43.180:8082/receivefile", formData)
+  axios.post("http://10.131.169.178:8082/receivefile", formData)
       .then(function (response) {
         console.log(response);
         getList();

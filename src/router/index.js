@@ -10,6 +10,15 @@ const routes = [
     redirect: "/fileShow",
     children: [
 		{
+					path: "/TeamFileShow",
+					name: "TeamFileShow",
+					component: () => import("views/TeamFileShow.vue"),
+					meta: {
+						title: "团队文献库",
+					},
+				},
+		
+		{
 			path: "/fileShow",
 			name: "fileShow",
 			component: () => import("views/fileShow.vue"),
