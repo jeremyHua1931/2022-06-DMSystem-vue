@@ -102,9 +102,9 @@
 </template>
 
 <script>
+const userid = localStorage.getItem("userid");
 import axios from "axios";
 import {baseURL} from "../utils/request";
-const userid = 1
 export default {
 
   data(){

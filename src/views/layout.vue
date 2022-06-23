@@ -209,7 +209,7 @@ const userInfo = ref({
 // };
 const handleRefresh = () => {
   //sadasd
-  router.push("/login");
+  router.go();
 };
 
 // onMounted(() => {
