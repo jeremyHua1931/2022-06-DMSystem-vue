@@ -9,7 +9,6 @@ const routes = [
     component: () => import("views/layout.vue"),
     redirect: "/fileShow",
     children: [
-
 		{
 			path: "/fileShow",
 			name: "fileShow",
@@ -18,7 +17,14 @@ const routes = [
 				title: "文件展示",
 			},
 		},
-		
+		{
+			path: "/TeamFileShow",
+			name: "TeamFileShow",
+			component: () => import("views/TeamFileShow.vue"),
+			meta: {
+				title: "团队文献库",
+			},
+		},
 		{
 		  path: "/UserDocuments",
 		  name: "UserDocuments",

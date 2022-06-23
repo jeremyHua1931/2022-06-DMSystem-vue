@@ -4,13 +4,12 @@
 			<el-button type="text" @click="ReturnTo">返回上一级</el-button>
 	    </div>
 		<div class="toolbar-right">
-			<!-- <el-button @click="MkdirTo" type="primary" plain>创建文件夹</el-button> -->
 			<el-button @click="MkdirFormVisible = true" type="primary" plain>创建文件夹</el-button>
-			<el-button @click="UploadFormVisible = true" type="primary" plain>上传</el-button>
+			<el-button @click="FileUpload" type="primary" plain>上传</el-button>
 		</div>
 	</div>
 	<el-table :data="FileList" border style="width: 100%" highlight-current-row="true">
-  	<el-table-column label="文件名">
+	<el-table-column label="文件名"> 
 		<template #default="scope">
 		<el-icon v-if="scope.row.ObjectType=='file'">
 			<Document/>
@@ -27,28 +26,14 @@
 		</template>
 		</el-table-column>
 		<el-table-column label="操作" fixed="right" width="220">
-  		<template #default="scope">
-			<!-- <el-button size="small" @click='ShareTo(scope.row.Title,scope.row.pdfid)'>分享</el-button> -->
-			<el-button size="small">分享</el-button>
-			<el-divider direction="vertical"></el-divider>
-			<!-- <el-button size="small" @click="PatchTo()">批注</el-button> -->
+		<template #default="scope">
 			<el-button size="small">批注</el-button>
 			<el-divider direction="vertical"></el-divider>
 			<!-- <el-button size="small" @click="EditTo(scope.row.Title)">编辑</el-button> -->
 			<el-button size="small" @click="EditFormVisible = true;EditTo(scope.row.Title)">编辑</el-button>
 			<el-divider direction="vertical"></el-divider>
 			<!-- <el-button size="small" type="danger" @click=DeleTo(scope.row.Title)>删除</el-button> -->
-			<el-popconfirm
-			  confirm-button-text="确认"
-			  cancel-button-text="取消"
-			  icon="el-icon-info"
-			  icon-color="red"
-			  title="确认删除该文件？"
-			  @confirm="DeleTo(scope.row.Title)">
-			  <template #reference>
-			    <el-button size="small" type="danger">删除</el-button>
-			  </template>
-			</el-popconfirm>
+			<el-button size="small" type="danger">删除</el-button>
 		</template>
 		</el-table-column>
 	</el-table>
@@ -56,9 +41,8 @@
 	   <el-form :model="EditForm">
 	      <el-form-item label="操作" :label-width="formLabelWidth">
 	        <el-select v-model="EditForm.OperationType" placeholder="请选择操作">
-				<el-option label="重命名" value="rename" />
-				<el-option label="移动" value="move" />
-				<el-option label="复制" value="copy" />
+	          <el-option label="移动" value="move" />
+	          <el-option label="复制" value="copy" />
 	        </el-select>
 	      </el-form-item>
 		  <el-form-item label="目标路径" :label-width="formLabelWidth">
@@ -68,45 +52,36 @@
 	    <template #footer>
 	      <span class="dialog-footer">
 	        <el-button @click="EditFormVisible = false">取消</el-button>
-	        <el-button type="primary" @click="EditFormVisible = false;EditComfirm()">确认</el-button>
+	        <el-button type="primary" @click="EditFormVisible = false">确认</el-button>
 	      </span>
 	    </template>
 	</el-dialog>
 	<el-dialog  title="创建文件夹" v-model="MkdirFormVisible">
-	   <el-form :model="MkdirForm">
-		  <el-form-item label="新建文件夹名:" :label-width="formLabelWidth">
+	   <el-form :model="EditForm">
+		  <el-form-item label="新建文件夹名" :label-width="formLabelWidth">
 		    <el-input v-model="MkdirForm.NewName" :placeholder="Paths.ThisPath"/>
 		  </el-form-item>
 	    </el-form>
 	    <template #footer>
 	      <span class="dialog-footer">
 	        <el-button @click="MkdirFormVisible = false">取消</el-button>
-	        <el-button type="primary" @click="MkdirFormVisible = false; ; MkdirConfirm()">确认</el-button>
+	        <el-button type="primary" @click="MkdirFormVisible = false ">确认</el-button>
 	      </span>
 	    </template>
 	</el-dialog>
-	<el-dialog  title="上传文件" v-model="UploadFormVisible">
-	   <el-form :model="UploadForm">
-		  <el-form-item label="上传文件路径:" :label-width="formLabelWidth">
-		    <el-input v-model="UploadForm.source" :placeholder="Paths.ThisPath"/>
-		  </el-form-item>
-		  <el-form-item label="目标路径:" :label-width="formLabelWidth">
-		    <el-input v-model="UploadForm.destination" :placeholder="Paths.ThisPath"/>
-		  </el-form-item>
-	    </el-form>
-	    <template #footer>
-	      <span class="dialog-footer">
-	        <el-button @click="UploadFormVisible = false">取消</el-button>
-	        <el-button type="primary" @click="UploadFormVisible = false; ; UploadConfirm()">确认</el-button>
-	      </span>
-	    </template>
-	</el-dialog>
+	
 </template>
 
 <script setup>
 import {ref, reactive, onBeforeMount, computed, watch} from "vue";
 import {useRouter,useRoute} from "vue-router";
 import {getFiles} from "../apis/file.js";
+
+const router = useRouter();
+const route = useRoute();
+/* const TeamPaths = reactive({
+	
+}); */
 
 const Paths = reactive({
 	FormerPath:"",
@@ -119,54 +94,25 @@ const Paths = reactive({
 })
 const EditFormVisible=ref(false);
 const MkdirFormVisible=ref(false);
-const UploadFormVisible=ref(false);
 const libraryid = "default";
-const router = useRouter();
 const formLabelWidth = '140px';
 const identity = '/person';
 
-const EditForm = reactive({
-	SourcePath : Paths.SourcePath,
-	DestinationPath :'',
-	OperationType :'',
-});
 var FileList = ref([]);
 
 const EditTo = function(RelPath){
 	Paths.SourcePath = ((Paths.ThisPath != '/')? Paths.ThisPath +'/'+RelPath : Paths.ThisPath+RelPath);
 };
 
-const EditConfirm = function(){
-	alert("EDITCONFIRM");
-	switch(EditForm.OperationType)
-	{
-		case "move": alert("MoveTo函数");
-		break;
-		case "rename": alert("RenameTo函数");
-		break;
-		case "copy": alert("CopyTo函数");
-		break;
-		default: alert("请选择操作") ;
-	}
-};
+const EditForm = reactive({
+	SourcePath : Paths.SourcePath,
+	DestinationPath :'',
+	OperationType :'',
+});
 
 const MkdirForm = reactive({
 	NewName :'', 
-});
-
-const MkdirConfirm = function(){
-	alert("MkdirTo函数");
-};
-
-const UploadForm = reactive({
-	Source :'',
-	destination : "",
-});
-
-const UploadConfirm = function()
-{
-	alert("UploadTo函数");
-};
+})
 
 const getList = () => {
 	var query = {
@@ -192,8 +138,7 @@ const getList = () => {
 };
 
 const DeleTo = function(RelPath){
-	alert("删除函数")
-/* 	var query = {
+	var query = {
 		option: "rm",
 		source: ((Paths.ThisPath != '/')? Paths.ThisPath +'/'+RelPath : Paths.ThisPath+RelPath),
 	};
@@ -211,11 +156,11 @@ const DeleTo = function(RelPath){
 	);
 	FileList.value = Filelist.filter(function(item){
 		return item.Title!== RelPath;
-	}) */
+	})
 }
 
 const MkdirTo = function(){
-	var query = {
+	/* var query = {
 		option: "mkdir",
 		dest: Paths.ThisPath,
 	};
@@ -231,7 +176,8 @@ const MkdirTo = function(){
 	    console.log(err);
 	    }
 	);
-	FileList.push({})
+	FileList.push({}) */
+	alert("MkdirTo函数");
 }
 
 const JumpTo = function(RelPath){
@@ -309,8 +255,10 @@ const ReturnTo = function(){
 	}
 	else
 	{
-		Paths.FormerPath=''
-		alert("此目录已是根目录,无法返回")
+		Paths.FormerPath='';
+		router.push({
+			path:'./TeamDocuments'
+		})
 	}
 };
 onBeforeMount(() => {
@@ -318,6 +266,7 @@ onBeforeMount(() => {
 	getList();
 });
 </script>
+
 
 <style type="text/css">
 .toolbar {

@@ -10,7 +10,7 @@
         />
         <el-button @click="getList" :icon="Search" type="text" circle></el-button>
       </div>
-      <el-select
+      <!-- <el-select
         v-model="query.status"
         @change="getList"
         placeholder="请选择销售状态"
@@ -20,7 +20,7 @@
         <el-option label="未开始" :value="0"> </el-option>
         <el-option label="进行中" :value="1"> </el-option>
         <el-option label="已结束" :value="2"> </el-option>
-      </el-select>
+      </el-select> -->
     </div>
     <div class="toolbar-right">
       <el-button @click="add" type="primary" plain>新增</el-button>
@@ -37,7 +37,7 @@
       <el-table-column prop="library_from_team_id" label="文献库所属团队编号" width="" />
       <el-table-column prop="library_from_team_name" label="文献库所属团队名称" width="" />
       <el-table-column label="操作" fixed="right" width="180"><template #default="scope">
-          <el-button size="small" @click="modify(scope.row)">进入文献库</el-button>
+          <el-button size="small" @click="EnterTo()">进入文献库</el-button>
 		  <el-divider direction="vertical"></el-divider>
           <el-popconfirm
             confirm-button-text="确认"
@@ -111,12 +111,22 @@ const add = () => {
 };
 
 const router = useRouter();
-const modify = (row) => {
+const EnterTo = () => {
   // router.push({
   //   path: "/depositRelease",
   //   query: { isModify: true, id: row.id },
   // });
-  alert("进入该文献库页面");
+  //alert("进入该文献库页面");
+	router.push({
+	  path:"/TeamFileShow",
+	 query:{
+		  //"option": "list",
+		  //"currentpath": "/",
+		  "userid": "1",
+		  //"libraryid": "default",
+		  //"identity": "/person"
+	  }, 
+	})
 };
 
 const handleDelete = (index, invalid, list) => {
