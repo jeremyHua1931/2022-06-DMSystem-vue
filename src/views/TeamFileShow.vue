@@ -404,7 +404,11 @@ const RenameTo = function(){
 		source:  Paths.PrePath+Paths.UserId+"/"+libraryid+Paths.SourcePath,
 		dest: Paths.PrePath+Paths.UserId+"/"+libraryid+EditForm.DestinationPath,
 		type: EditForm.ObjectType,
+    pdfid:pdfid
 	};
+  console.log("fhdjsafhjdsaflhjkas")
+  console.log(query)
+
 	getFiles(query)
 	  .then((res) => {
 	    if (res.code == 0) {

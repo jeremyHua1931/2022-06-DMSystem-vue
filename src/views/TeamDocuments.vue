@@ -152,7 +152,7 @@ const libList = ref([]);
 const EnterTo = (team, lib) => {
   console.log("发货件大事富海大厦尽快发货税扣减阿富汗辣的刷卡缴费单")
   localStorage.setItem("teamid",team)
-  localStorage.setItem("lib",lib)
+  localStorage.setItem("libid",lib)
 
 	router.push({
 	  path:"/TeamFileShow",

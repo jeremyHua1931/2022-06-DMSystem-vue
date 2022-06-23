@@ -252,7 +252,7 @@ const userInfo = ref({
 });
 
 const loginout = () => {
-  localStorage.removeItem("userid")
+  localStorage.clear()
   window.location.href="http://192.168.238.1:8082/login"
 };
 const handleRefresh = () => {

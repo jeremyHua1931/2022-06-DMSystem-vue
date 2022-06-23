@@ -157,10 +157,10 @@ const Instance = getCurrentInstance();
 const { appContext : { config: { globalProperties } } } = getCurrentInstance();
 globalProperties.$userid = userid; */
 
-localStorage.setItem("userid", "1")
-localStorage.setItem("teamid", "1")
-localStorage.setItem("libid", "1")
-console.log("默认初始化", localStorage.getItem("userid"))
+// localStorage.setItem("userid", "1")
+// localStorage.setItem("teamid", "1")
+// localStorage.setItem("libid", "1")
+// console.log("默认初始化", localStorage.getItem("userid"))
 
 
 const Paths = reactive({
