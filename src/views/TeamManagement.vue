@@ -31,12 +31,12 @@
 		<p v-if="scope.row.type==0">暂无权限，无法操作</p>
         </template>
       </el-table-column>
-	  
-	  
-	  
+
+
+
     </el-table>
   </div>
-  
+
   <el-dialog v-model="dialogFormVisible" title="更改成员权限">
       <el-form :model="p_form">
         <el-form-item label="请选择更改权限方式" :label-width="formLabelWidth">
@@ -55,7 +55,7 @@
         </span>
       </template>
     </el-dialog>
-  
+
 </template>
 
 <script setup>
@@ -191,17 +191,17 @@ const handle_set_per = () =>{
       getList()
 	    if (res.code == 0) {
 	      open1();
-			
+
 	    }
 	  })
 	  .catch((err) => {
 	   open4();
 	  });
-	
-	
-	
-	
-	
+
+
+
+
+
 };
 
 
@@ -211,11 +211,11 @@ const getList = () => {
     .then((res) => {
       if (res.code == 0) {
         allTeamers.value = res.data;
-		
+
 		console.log("获取到的数据为",allTeamers.value)
 		type = res.data[0].type;
 		console.log("type的值为：",type);
-		
+
       }
     })
     .catch((err) => {
@@ -235,15 +235,15 @@ const modify_per = (row) => {
 };
 
 const handleDelete = (index, row) => {
-	
+
 	const post_delete_user = {
 		teamid:row.team_id,
 		userid:userid,
 		targetid:row.member_id,
 	};
-	
+
 	console.log("&&&&",post_delete_user)
-	
+
 	deleteTeamer(post_delete_user)
 	  .then((res) => {
 	    if (res.code == 0) {
