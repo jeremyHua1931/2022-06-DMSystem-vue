@@ -1,4 +1,9 @@
 <template>
+  <div class="toolbar">
+    <div class="toolbar-right">
+      <el-button @click="dialogFormVisible2 = true" type="primary" plain>添加成员</el-button>
+    </div>
+  </div>
 
   <div class="table">
     <el-table :data="allTeamers" border style="width: 100%">
@@ -55,10 +60,29 @@
         </span>
       </template>
     </el-dialog>
+
+  <el-dialog v-model="dialogFormVisible2" title="添加成员">
+    <el-form :model="cmember">
+      <el-form-item label="请输入新成员id:" :label-width="formLabelWidth">
+        <el-input v-model="cmember.id" autocomplete="off" />
+      </el-form-item>
+
+    </el-form>
+    <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogFormVisible2 = false">取消</el-button>
+          <el-button type="primary" @click="create_member()"
+          >确认</el-button
+          >
+        </span>
+    </template>
+  </el-dialog>
   
 </template>
 
 <script setup>
+import {makelib} from "@/apis/teamdocuments";
+
 var test=localStorage.getItem("userid")
 if(test==null){
   window.location.href = "http://192.168.238.1:8082/login"
@@ -119,6 +143,10 @@ import { ElMessage } from 'element-plus'
 
 const userid = localStorage.getItem("userid");
 console.log("TeamManage", userid)
+const dialogFormVisible1 = ref(false);
+const cmember = reactive({
+  id:'',
+})
 
 //消息通知
 const open1 = () => {
@@ -153,8 +181,27 @@ const open4 = () => {
   })
 }
 
+const open121 = () => {
+  ElMessage({
+    showClose: true,
+    message: '您已成功邀请该用户假如您的团队,请等待对方同意',
+    type: 'success',
+  })
+}
+
+const open122 = () => {
+  ElMessage({
+    showClose: true,
+    message: 'Oops！邀请失败',
+    type: 'error',
+  })
+}
+
+
+
 const formLabelWidth = '140px'
 const dialogFormVisible = ref(false);
+const dialogFormVisible2 = ref(false);
 
 const p_form = reactive({
 	permisson:'管理员',
@@ -202,6 +249,28 @@ const handle_set_per = () =>{
 	
 	
 	
+};
+
+const create_member = () => {
+  dialogFormVisible.value = false;
+  const post_create_mem = {
+    userid:userid,
+    teamid:router.currentRoute.value.query["teamid"],
+    targetid:cmember.id,
+  };
+  addAdminister(post_create_mem)
+      .then((res) => {
+        getList()
+        if (res.code == 0) {
+       open121();
+
+        }
+      })
+      .catch((err) => {
+        open122();
+
+      });
+
 };
 
 
