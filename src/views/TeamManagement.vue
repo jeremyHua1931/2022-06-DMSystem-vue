@@ -1,4 +1,9 @@
 <template>
+  <div class="toolbar">
+    <div class="toolbar-right">
+      <el-button @click="dialogFormVisible2 = true" type="primary" plain>添加成员</el-button>
+    </div>
+  </div>
 
   <div class="table">
     <el-table :data="allTeamers" border style="width: 100%">
@@ -8,28 +13,28 @@
       ></el-table-column> -->
       <el-table-column align="center" prop="team_id" label="团队编号" width="" />
       <el-table-column align="center" prop="team_name" label="团队名称" width="" />
-	  <el-table-column align="center" prop="member_id" label="团队成员ID" width="" />
+      <el-table-column align="center" prop="member_id" label="团队成员ID" width="" />
       <el-table-column align="center" prop="member_name" label="团队成员昵称" width="" />
       <el-table-column align="center" prop="member_permission" label="成员权限" width="" />
       <el-table-column align="center" key = "1" label="操作" fixed="right" width="180"
-        ><template #default="scope">
-          <el-button v-if="scope.row.type==1" size="small" @click="modify_per(scope.row)">修改权限</el-button>
-		<el-divider v-if="scope.row.type==1" direction="vertical"></el-divider>
-		<el-popconfirm
-		  v-if="scope.row.type==1"
-		  confirm-button-text="确认"
-		  cancel-button-text="取消"
-		  icon="el-icon-info"
-		  icon-color="red"
-		  title="确认删除该成员？"
-		  @confirm="handleDelete(scope.$index, scope.row)"
-		>
-		  <template #reference>
-		    <el-button v-if="scope.row.type==1" size="small" type="danger">删除</el-button>
-		  </template>
-		</el-popconfirm>
-		<p v-if="scope.row.type==0">暂无权限，无法操作</p>
-        </template>
+      ><template #default="scope">
+        <el-button v-if="scope.row.type==1" size="small" @click="modify_per(scope.row)">修改权限</el-button>
+        <el-divider v-if="scope.row.type==1" direction="vertical"></el-divider>
+        <el-popconfirm
+            v-if="scope.row.type==1"
+            confirm-button-text="确认"
+            cancel-button-text="取消"
+            icon="el-icon-info"
+            icon-color="red"
+            title="确认删除该成员？"
+            @confirm="handleDelete(scope.$index, scope.row)"
+        >
+          <template #reference>
+            <el-button v-if="scope.row.type==1" size="small" type="danger">删除</el-button>
+          </template>
+        </el-popconfirm>
+        <p v-if="scope.row.type==0">暂无权限，无法操作</p>
+      </template>
       </el-table-column>
 
 
@@ -38,27 +43,46 @@
   </div>
 
   <el-dialog v-model="dialogFormVisible" title="更改成员权限">
-      <el-form :model="p_form">
-        <el-form-item label="请选择更改权限方式" :label-width="formLabelWidth">
-         <el-select v-model="p_form.permisson" placeholder="请选择要修改权限的方式">
-                   <el-option label="设为管理员" value="管理员" />
-                   <el-option label="设为组员" value="组员" />
-                 </el-select>
-        </el-form-item>
-      </el-form>
-      <template #footer>
+    <el-form :model="p_form">
+      <el-form-item label="请选择更改权限方式" :label-width="formLabelWidth">
+        <el-select v-model="p_form.permisson" placeholder="请选择要修改权限的方式">
+          <el-option label="设为管理员" value="管理员" />
+          <el-option label="设为组员" value="组员" />
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取消</el-button>
           <el-button type="primary" @click="handle_set_per()"
-            >确认</el-button
+          >确认</el-button
           >
         </span>
-      </template>
-    </el-dialog>
+    </template>
+  </el-dialog>
+
+  <el-dialog v-model="dialogFormVisible2" title="添加成员">
+    <el-form :model="cmember">
+      <el-form-item label="请输入新成员id:" :label-width="formLabelWidth">
+        <el-input v-model="cmember.id" autocomplete="off" />
+      </el-form-item>
+
+    </el-form>
+    <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogFormVisible2 = false">取消</el-button>
+          <el-button type="primary" @click="create_member()"
+          >确认</el-button
+          >
+        </span>
+    </template>
+  </el-dialog>
 
 </template>
 
 <script setup>
+import {makelib} from "@/apis/teamdocuments";
+
 var test=localStorage.getItem("userid")
 if(test==null){
   window.location.href = "http://10.131.167.11:8082/login"
@@ -114,11 +138,15 @@ import { useRouter } from "vue-router";
 import { Search } from "@element-plus/icons-vue";
 // import { getToken } from "utils/auth";
 // import { getDepositList, deleteDeposit } from "apis/good.js";
-import {getAllTeamers,deleteTeamer,addAdminister} from "apis/team.js"
+import {getAllTeamers,deleteTeamer,addAdminister,addteamer} from "apis/team.js"
 import { ElMessage } from 'element-plus'
 
 const userid = localStorage.getItem("userid");
 console.log("TeamManage", userid)
+const dialogFormVisible1 = ref(false);
+const cmember = reactive({
+  id:'',
+})
 
 //消息通知
 const open1 = () => {
@@ -153,11 +181,31 @@ const open4 = () => {
   })
 }
 
+const open121 = () => {
+  ElMessage({
+    showClose: true,
+    message: '您已成功邀请该用户假如您的团队,请等待对方同意',
+    type: 'success',
+  })
+}
+
+const open122 = () => {
+  ElMessage({
+    showClose: true,
+    message: 'Oops！邀请失败',
+    type: 'error',
+  })
+}
+
+
+
 const formLabelWidth = '140px'
 const dialogFormVisible = ref(false);
 
+const dialogFormVisible2 = ref(false);
+
 const p_form = reactive({
-	permisson:'管理员',
+  permisson:'管理员',
 })
 
 var targetid = "";
@@ -176,27 +224,27 @@ const allTeamers = ref([]);
 
 
 const handle_set_per = () =>{
-	dialogFormVisible.value = false;
-	const post_set_per = {
-		teamid:router.currentRoute.value.query["teamid"],
-		userid:userid,
-		targetid:targetid.toString(),
-		targetPermission:p_form.permisson,
-	};
+  dialogFormVisible.value = false;
+  const post_set_per = {
+    teamid:router.currentRoute.value.query["teamid"],
+    userid:userid,
+    targetid:targetid.toString(),
+    targetPermission:p_form.permisson,
+  };
 
 
-	console.log("修改权限",post_set_per)
+  console.log("修改权限",post_set_per)
   addAdminister(post_set_per)
-	  .then((res) => {
-      getList()
-	    if (res.code == 0) {
-	      open1();
+      .then((res) => {
+        getList()
+        if (res.code == 0) {
+          open1();
 
-	    }
-	  })
-	  .catch((err) => {
-	   open4();
-	  });
+        }
+      })
+      .catch((err) => {
+        open4();
+      });
 
 
 
@@ -204,23 +252,45 @@ const handle_set_per = () =>{
 
 };
 
+const create_member = () => {
+  dialogFormVisible.value = false;
+  const post_create_mem = {
+    userid:userid,
+    teamid:router.currentRoute.value.query["teamid"],
+    targetid:cmember.id,
+  };
+  addteamer(post_create_mem)
+      .then((res) => {
+        getList()
+        if (res.code == 0) {
+          open121();
+
+        }
+      })
+      .catch((err) => {
+        open122();
+
+      });
+
+};
+
 
 
 const getList = () => {
   getAllTeamers(query)
-    .then((res) => {
-      if (res.code == 0) {
-        allTeamers.value = res.data;
+      .then((res) => {
+        if (res.code == 0) {
+          allTeamers.value = res.data;
 
-		console.log("获取到的数据为",allTeamers.value)
-		type = res.data[0].type;
-		console.log("type的值为：",type);
+          console.log("获取到的数据为",allTeamers.value)
+          type = res.data[0].type;
+          console.log("type的值为：",type);
 
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 };
 
 //
@@ -230,30 +300,30 @@ const getList = () => {
 
 
 const modify_per = (row) => {
-	targetid = row.member_id;
-	dialogFormVisible.value = true;
+  targetid = row.member_id;
+  dialogFormVisible.value = true;
 };
 
 const handleDelete = (index, row) => {
 
-	const post_delete_user = {
-		teamid:row.team_id,
-		userid:userid,
-		targetid:row.member_id,
-	};
+  const post_delete_user = {
+    teamid:row.team_id,
+    userid:userid,
+    targetid:row.member_id,
+  };
 
-	console.log("&&&&",post_delete_user)
+  console.log("&&&&",post_delete_user)
 
-	deleteTeamer(post_delete_user)
-	  .then((res) => {
-	    if (res.code == 0) {
-		  allTeamers.value.splice(index, 1);
-	      open2();
-	    }
-	  })
-	  .catch((err) => {
-	  open3();
-	  });
+  deleteTeamer(post_delete_user)
+      .then((res) => {
+        if (res.code == 0) {
+          allTeamers.value.splice(index, 1);
+          open2();
+        }
+      })
+      .catch((err) => {
+        open3();
+      });
 };
 
 onBeforeMount(() => {

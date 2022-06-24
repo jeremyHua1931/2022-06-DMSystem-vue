@@ -69,7 +69,13 @@ export const addAdminister = (data) => {
   });
 };
 
-
+export const addteamer = (data) => {
+  return service({
+    url: "/team/addTeamer",
+    method: "post",
+    data,
+  });
+};
 
 
 /**
