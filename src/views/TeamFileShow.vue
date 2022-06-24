@@ -96,7 +96,7 @@
 <script setup>
 var test=localStorage.getItem("userid")
 if(test==null){
-  window.location.href = "http://192.168.238.1:8082/login"
+  window.location.href = "http://10.131.167.11:8082/login"
 }
 
 import {ElMessage} from "element-plus";
@@ -189,10 +189,10 @@ const ShareTo = function(pdfid){
     open2();
   } else {
     ShareVisible.value = true;
-    //http://192.168.238.1:8082/pdf/showpdf?fileid=1
-    ShareUrl0.value = "http://192.168.238.1:8082/pdf/showpdf?fileid=" + pdfid;
-    ShareUrl.value = "http://192.168.238.1:8082/index.html?pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=directshare";
-    ShareUrl2.value = "http://192.168.238.1:8082/index.html?pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=indirectShare";
+    //http://10.131.167.11:8082/pdf/showpdf?fileid=1
+    ShareUrl0.value = "http://10.131.167.11:8082/pdf/showpdf?fileid=" + pdfid;
+    ShareUrl.value = "http://10.131.167.11:8082/index.html?pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=directshare";
+    ShareUrl2.value = "http://10.131.167.11:8082/index.html?pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=indirectShare";
   }
 }
 const open7 = () => {
@@ -202,9 +202,9 @@ const PatchTo = function(pdfid){
   if (pdfid == "fix") {
     open7();
   } else {
-    //http://192.168.238.1:8082/index.html?pdfid=1&&ownerid=1&&type=normal
+    //http://10.131.167.11:8082/index.html?pdfid=1&&ownerid=1&&type=normal
 
-    var urltmp = "http://192.168.238.1:8082/index.html?" + "pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=normal";
+    var urltmp = "http://10.131.167.11:8082/index.html?" + "pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=normal";
     window.open(urltmp, "文件批注页");
   }
 }
@@ -589,7 +589,7 @@ const uploadFile= function(){
   obj.info = "附属信息";//用户名
   let data = JSON.stringify(obj);
   formData.append("path",Paths.PrePath+Paths.UserId+"/"+libraryid+Paths.ThisPath);
-  axios.post("http://192.168.238.1:8082/receivefile", formData)
+  axios.post("http://10.131.167.11:8082/receivefile", formData)
       .then(function (response) {
         console.log(response);
         getList();

@@ -166,7 +166,7 @@
 <script setup>
 var test=localStorage.getItem("userid")
 if(test==null){
-  window.location.href = "http://192.168.238.1:8082/login"
+  window.location.href = "http://10.131.167.11:8082/login"
 }
 
 window.alert = function(msg, callback) {
@@ -258,7 +258,7 @@ const userInfo = ref({
 
 const loginout = () => {
   localStorage.clear()
-  window.location.href="http://192.168.238.1:8082/login"
+  window.location.href="http://10.131.167.11:8082/login"
 };
 const handleRefresh = () => {
   router.go();

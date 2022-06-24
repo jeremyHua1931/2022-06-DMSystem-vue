@@ -5,7 +5,7 @@ import { TokenKey, getToken, setToken, removeToken } from "@/utils/auth";
 const router = useRouter();
 
 
-export const baseURL ="http://192.168.238.1:8082"
+export const baseURL ="http://10.131.167.11:8082"
  // export const baseURL ="http://localhost:8082"
 
 

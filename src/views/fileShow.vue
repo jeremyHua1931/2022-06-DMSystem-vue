@@ -20,7 +20,7 @@
         <el-icon v-else-if="scope.row.ObjectType=='directory'">
           <Folder/>
         </el-icon>
-        <span style="margin-left: 10px  text-aligned=left" @dblclick="JumpTo(scope.row.Title)"
+        <span style="margin-left: 10px  text-aligned = left" @dblclick="JumpTo(scope.row.Title)"
               show-overflow-tooltip="true"> {{ scope.row.Title }} </span>
       </template>
     </el-table-column>
@@ -301,7 +301,7 @@ globalProperties.$userid = userid; */
 
 var test=localStorage.getItem("userid")
 if(test==null){
-  window.location.href = "http://192.168.238.1:8082/login"
+  window.location.href = "http://10.131.167.11:8082/login"
 }
 
 
@@ -347,28 +347,29 @@ const open3 = () => {
 
 const ShareTo = function (pdfid) {
 
-  //http://192.168.238.1:8082/index.html?pdfid=1&&ownerid=1&&type=normal 无需登录看
-  //http://192.168.238.1:8082/index.html?pdfid=1&&ownerid=1&&type=indirectShare
+  //http://10.131.167.11:8082/index.html?pdfid=1&&ownerid=1&&type=normal 无需登录看
+  //http://10.131.167.11:8082/index.html?pdfid=1&&ownerid=1&&type=indirectShare
 
 
   if (pdfid == "fix") {
     open2();
   } else {
     ShareVisible.value = true;
-    //http://192.168.238.1:8082/pdf/showpdf?fileid=1
-    ShareUrl0.value = "http://192.168.238.1:8082/pdf/showpdf?fileid=" + pdfid;
-    ShareUrl.value = "http://192.168.238.1:8082/index.html?pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=directshare";
-    ShareUrl2.value = "http://192.168.238.1:8082/index.html?pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=indirectShare";
+    //http://10.131.167.11:8082/pdf/showpdf?fileid=1
+    ShareUrl0.value = "http://10.131.167.11:8082/pdf/showpdf?fileid=" + pdfid;
+    ShareUrl.value = "http://10.131.167.11:8082/index.html?pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=directshare";
+    ShareUrl2.value = "http://10.131.167.11:8082/index.html?pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=indirectShare";
   }
 
 }
 const PatchTo = function (pdfid) {
+  console.log("pdfid  "+pdfid)
   if (pdfid == "fix") {
     open3();
   } else {
-    //http://192.168.238.1:8082/index.html?pdfid=1&&ownerid=1&&type=normal
+    //http://10.131.167.11:8082/index.html?pdfid=1&&ownerid=1&&type=normal
 
-    var urltmp = "http://192.168.238.1:8082/index.html?" + "pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=normal";
+    var urltmp = "http://10.131.167.11:8082/index.html?" + "pdfid=" + pdfid + "&&ownerid=" + Paths.UserId + "&&type=normal";
     window.open(urltmp, "文件批注页");
   }
 }
@@ -707,7 +708,7 @@ const uploadFile = function () {
   obj.info = "附属信息";//用户名
   let data = JSON.stringify(obj);
   formData.append("path", Paths.PrePath + Paths.UserId + "/" + libraryid + Paths.ThisPath);
-  axios.post("http://192.168.238.1:8082/receivefile", formData)
+  axios.post("http://10.131.167.11:8082/receivefile", formData)
       .then(function (response) {
         console.log(response);
         getList();

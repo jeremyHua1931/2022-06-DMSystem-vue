@@ -64,7 +64,7 @@
 <script setup>
 var test=localStorage.getItem("userid")
 if(test==null){
-  window.location.href = "http://192.168.238.1:8082/login"
+  window.location.href = "http://10.131.167.11:8082/login"
 }
 
 window.alert = function(msg, callback) {
@@ -159,14 +159,16 @@ const EnterTo = (team, lib) => {
   localStorage.setItem("teamid",team)
   localStorage.setItem("libid",lib)
 
-	router.push({
-	  path:"/TeamFileShow",
-	  query:{
-      "teamid":team,
-		  "libid":lib
-
-	  },
-	})
+  window.location.href = 'http://10.131.167.11:8082/home#/TeamFileShow';
+// lib	router.push({
+//     http://10.131.167.11:8082/home#/TeamFileShow?teamid=2&libid=1
+// 	  path:"home#/TeamFileShow",
+// 	  query:{
+//       "teamid":team,
+// 		  "libid":lib
+//
+// 	  },
+// 	})
 };
 
 

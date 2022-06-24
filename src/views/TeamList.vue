@@ -13,14 +13,14 @@
         <template #default="scope">
           <div>
             <el-link
-                :href="'/#/TeamManagement?teamid=' + scope.row.team_id"
+                :href="'home#/TeamManagement?teamid=' + scope.row.team_id"
                 type="primary"
                 :underline="false"
             >成员管理
             </el-link>
             <el-divider direction="vertical"></el-divider>
             <el-link
-                :href="'/#/TeamDocuments?teamid=' + scope.row.team_id"
+                :href="'home#/TeamDocuments?teamid=' + scope.row.team_id"
                 type="primary"
                 :underline="false"
             >文献管理
@@ -80,7 +80,7 @@
 <script setup>
 var test=localStorage.getItem("userid")
 if(test==null){
-  window.location.href = "http://192.168.238.1:8082/login"
+  window.location.href = "http://10.131.167.11:8082/login"
 }
 window.alert = function(msg, callback) {
   var div = document.createElement("div");
