@@ -85,7 +85,7 @@ import {makelib} from "@/apis/teamdocuments";
 
 var test=localStorage.getItem("userid")
 if(test==null){
-  window.location.href = "http://192.168.238.1:8082/login"
+  window.location.href = "http://10.131.167.11:8082/login"
 }
 window.alert = function(msg, callback) {
   var div = document.createElement("div");
@@ -138,7 +138,7 @@ import { useRouter } from "vue-router";
 import { Search } from "@element-plus/icons-vue";
 // import { getToken } from "utils/auth";
 // import { getDepositList, deleteDeposit } from "apis/good.js";
-import {getAllTeamers,deleteTeamer,addAdminister} from "apis/team.js"
+import {getAllTeamers,deleteTeamer,addAdminister,addteamer} from "apis/team.js"
 import { ElMessage } from 'element-plus'
 
 const userid = localStorage.getItem("userid");
@@ -201,6 +201,7 @@ const open122 = () => {
 
 const formLabelWidth = '140px'
 const dialogFormVisible = ref(false);
+
 const dialogFormVisible2 = ref(false);
 
 const p_form = reactive({
@@ -258,7 +259,7 @@ const create_member = () => {
     teamid:router.currentRoute.value.query["teamid"],
     targetid:cmember.id,
   };
-  addAdminister(post_create_mem)
+  addteamer(post_create_mem)
       .then((res) => {
         getList()
         if (res.code == 0) {
